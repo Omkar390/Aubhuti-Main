@@ -1,0 +1,2453 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/MasterPage.master" AutoEventWireup="false" CodeFile="AccountMaster.master.vb" Inherits="AccountMaster" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%-- <%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %> --%>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+   
+    <link rel="stylesheet" href="telephone/css/intlTelInput.css" />
+    <link rel="stylesheet" href="telephone/css/demo.css" />
+
+    <!-- <script type="text/javascript" src="js/Extension.min.js"></script> -->
+    <script type="text/javascript" src="js/jquery.maskedinput.js"></script>
+
+	<script type="text/javascript" src="ckeditor2/ckeditor.js"></script>
+    <script type="text/javascript" src="ckeditor2/samples/js/sample.js"></script>
+    <link rel="stylesheet" href="ckeditor2/samples/css/samples.css" />
+	<link rel="stylesheet" href="ckeditor2/samples/toolbarconfigurator/lib/codemirror/neo.css" />
+     <script type="text/javascript" src="ckeditor2/adapters/jquery.js"></script>
+
+    <script type="text/javascript">
+
+        function GetCKEditorData1() {
+            var data = CKEDITOR.instances.ckeditor1.getData();
+            if (data != "") {                
+                $("#<%= pQEEmailBody.ClientID %>").val(data);
+                return true;
+            }
+            else {
+                alert("Empty is not allowed.");
+                return false;
+            }
+        }
+
+        function GetCKEditorData2() {
+            var data = CKEDITOR.instances.ckeditor2.getData();
+            if (data != "") {
+                $("#<%= pEmailBody.ClientID %>").val(data);
+                return true;
+            }
+            else {
+                alert("Empty is not allowed.");
+                return false;
+            }
+        }
+	
+	        function addremovevalct2() {
+            var myVal = document.getElementById('ctl00_ctl00_ContentPlaceHolder1_cvpCtEmail');
+            ValidatorEnable(myVal, false);
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtFirstName").required = true;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtLastName").required = true;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").required = false;
+            //if (document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtFirstName") != '0') {
+            if (document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pAssignedTo") != null) {
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pAssignedTo").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pdtACt").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pType").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pPriority").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pStatus").required = false;
+            }
+        }
+        function addremovevalct() {
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtFirstName").required = false;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtLastName").required = false;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").required = true;
+        }
+        function addremovevalacct() {
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtFirstName").required = true;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtLastName").required = true;
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").required = false;
+            //if (document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtFirstName") != '0') {
+			if (document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pAssignedTo") != null) {
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pAssignedTo").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pdtACt").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pType").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pPriority").required = false;
+                document.getElementById("ctl00_ctl00_ContentPopMain_ContentPop_pStatus").required = false;
+            }
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pType").required = false;
+        }
+
+	String.prototype.reverse = function () {
+        return this.split("").reverse().join("");
+    }
+
+    function reformatText(input) {       
+		
+		var x = input.value;
+		x = x.replace(/\D/g,'');	//remove alphs
+        x = x.replace(/,/g, ""); // Strip out all commas
+        x = x.reverse();
+        x = x.replace(/.../g, function (e) {
+            return e + ",";
+        }); // Insert new commas
+        x = x.reverse();
+        x = x.replace(/^,/, ""); // Remove leading comma
+        x = x.replace(/^0/, ""); // Remove leading zeros
+        input.value = x;
+    }
+	
+		var prm = Sys.WebForms.PageRequestManager.getInstance();
+        prm.add_pageLoaded(function () {
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pZip").mask("?99999-9999");
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pPhone").mask("?999-999-9999");
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pFax").mask("?999-999-9999");
+			//$("#ctl00_ctl00_ContentPlaceHolder1_pAnnRev").mask("?999,999,999,9999");
+			//$("#ctl00_ctl00_ContentPlaceHolder1_pEmployees").mask("?999,999,999");
+			//$("#ctl00_ctl00_ContentPlaceHolder1_pInvoices").mask("?999,999,999");
+
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pCtZip").mask("?99999-9999");
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pCtPhone").mask("?999-999-9999");
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pCtFax").mask("?999-999-9999");
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pCtPBX").mask("?999-999-9999");
+            //$("#ctl00_ctl00_ContentPlaceHolder1_pCtCell").mask("?999-999-9999");
+			});
+
+		function CancelAccount() {
+		if (document.getElementById("ctl00_ctl00_ContentPlaceHolder1_frommicroregionreport").value == 1) {
+                window.location.href = 'ReportDetail.aspx?RptName=MicroRegionDetail&mrid=' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnmrid").value;
+		}
+		else 
+		if (document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value == 0) {
+                window.location.href = 'ReportDetail.aspx?RptName=AccountList';
+            }
+            else {
+                $("#editco").hide();
+            }
+
+        }
+
+        function isDupEmail(source, arguments) {
+            var valid = ChkDupEmail();
+            if (valid)
+                arguments.IsValid = true;
+            else
+                arguments.IsValid = false;
+        }
+        function validateandgoct2() {
+            return SaveContact();
+        }
+
+        function validateandgoct() {
+            var valid = document.forms[0].checkValidity();
+           
+            if (valid) {
+                var validated = Page_ClientValidate('dupemail');
+                //alert(validated);
+                if (validated) {
+                    return SaveContact();
+                }
+                //else
+                //    return false;
+            }
+            //else
+            //    return false;
+        }
+
+        function validateandgo() {
+            var valid = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").checkValidity();
+            if (valid) {
+                    return SaveAccount(0);
+            }
+        }
+
+        function delconfirm() {
+            if (confirm('Record will be deleted. Are you sure?')) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function editco() {
+            $("#editco").show();
+        }  
+
+        function ownerchange() {
+            //document.getElementById("ctl00_ctl00_ContentPlaceHolder1_divOwner").style.display = 'block';
+            //document.getElementById("ctl00_ctl00_ContentPlaceHolder1_spanAO").style.display = 'none';
+            $("#changeOwner").show();
+        }
+        
+        function editct() {
+            $("#editct").show();
+        }  
+
+        function editcoattr(AttrType) {
+
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDescription").value = 'Start typing and then Select from list or Type a New one';
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDesc1").value = '';
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnValue").value = '0';
+            
+            if (AttrType == 'System'  || AttrType == 'Profit Recovery Firm') {
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDescription").style.display = 'block';
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDesc1").style.display = 'none'
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_rfvtxtDesc1").style.display = 'none'
+            }
+            else {
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDescription").style.display = 'none' ;
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDesc1").style.display = 'block';
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_rfvtxtDesc1").style.display = 'block'
+            }
+
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_litAttrType").innerText = AttrType ;
+            $find('<%=ACDescription.ClientID%>').set_contextKey(AttrType);
+            $("#addAcctAttr").show();
+            return true;
+        }  
+
+        function addInvent() {
+            $("#addInvent").show();
+            return true;
+        }  
+
+        function SaveAccount(savetype) {
+
+            if (savetype == 0) {
+                dupchk = 1;
+                $.ajax({
+                    type: "POST",
+                    url: "WebMethods.aspx/CheckDupAcct",
+                    data: '{ coname: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").value +
+                          '",t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                          '"}',
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.d == 1) {
+                            $("#AllowDupAcct").show();
+                            dupchk = 0;
+                        }
+                        else {
+                            dupchk = 1;
+                        }
+                        //alert(data.d);
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+                if (dupchk == 0) {
+                    return false;
+                }
+            }
+
+            $("#AllowDupAcct").hide();
+            var CountrySel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCountry");
+            var selectedCountry = CountrySel.options[CountrySel.selectedIndex].value;
+
+            var OwnershipSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pOwnership");
+            var selectedOwnership = OwnershipSel.options[OwnershipSel.selectedIndex].value;
+
+            var InvRangeSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pInvRange");
+            var selectedInvRange = InvRangeSel.options[InvRangeSel.selectedIndex].value;
+
+            var StatusSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pStatus");
+            var selectedStatus = StatusSel.options[StatusSel.selectedIndex].value;
+
+            var OwnerSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pOwner");
+            var selectedOwner = OwnerSel.options[OwnerSel.selectedIndex].value;
+
+            var MicroRegionSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pMicroRegion");
+            var selectedMicroRegion = MicroRegionSel.options[MicroRegionSel.selectedIndex].value;
+
+            var TierSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pTier");
+            var selectedTier = TierSel.options[TierSel.selectedIndex].value;
+
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveAccount",
+                data: '{ t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                        '",name: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").value +
+                        '",physicalstreet: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pAddress").value +
+                        '",physicalcity: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCity").value +
+                        '",physicalstate: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pState").value +
+                        '",physicalpostalcode: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pZip").value +
+                        '",physicalcountry: "' + selectedCountry +
+                        '",phone: "' + $("#ctl00_ctl00_ContentPlaceHolder1_pPhone").intlTelInput("getNumber", intlTelInputUtils.numberFormat.E164) +
+                        '",fax: "' + $("#ctl00_ctl00_ContentPlaceHolder1_pFax").intlTelInput("getNumber", intlTelInputUtils.numberFormat.E164) +
+                        '",website: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pWebsite").value +
+                        '",sic: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pIndustry").value +
+                        '",industry: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pIndustry").value +
+                        '",annualrevenue: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pAnnRev").value +
+                        '",actualinvoice: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pInvoices").value +
+                        '",numberofemployees: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pEmployees").value +
+                        '",ownership: "' + selectedOwnership +
+                        '",tickersymbol: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pTicker").value +
+                        '",description: "' + escape(document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pDescription").value)  +
+                        '",tier: "' + selectedTier +
+                        '",invoicerange: "' + selectedInvRange +
+                        '",valdate: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pdtVal").value  +
+                        '",ownerid: "' + selectedOwner  +
+                        '",microregion: "' + selectedMicroRegion  +
+                        '",accountstatus: "' + selectedStatus + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function(data) {                    
+						$("#editco").hide();
+							document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value = data.d ;
+							document.getElementById("ctl00_ctl00_ContentPlaceHolder1_shdrCo").innerText = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCoName").value;
+							//initialize address
+							document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtAddress").value = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pAddress").value;
+							document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtCity").value = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCity").value;
+							document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtState").value = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pState").value;
+							document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtZip").value = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pZip").value;
+							if ((window.location.href.indexOf("Activities.aspx") > -1) || (window.location.href.indexOf("Opportunities.aspx") > -1)) {
+								eval(<%=BindAccount %>);
+							}
+
+							return true;				
+                },
+                failure: function(response) {
+                    alert(response.d);
+                }
+                }); 
+            }
+
+        function ChkDupEmail() {
+            var retval = false;
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/CheckDupEmail",
+                data: '{ email: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtEmail").value +
+                          '",t_contact_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                          '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.d == 0) {
+                        retval = true;
+                        //return SaveContact();
+                    }
+                    else if (data.d == 1) {
+                        alert("Duplicate email.");
+                        retval = false;
+                    }
+                    else if (data.d == 2) {
+                        $("#AllowAlert").show();
+                        retval = false;
+                    }
+                    //alert(data.d);
+                },
+                failure: function(response) {
+                    alert(response.d);
+                }
+            });
+            return retval;
+        }
+
+        function SaveContact() {
+            var CtSalutationSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtSalutation");
+            var CtselectedSalutation = CtSalutationSel.options[CtSalutationSel.selectedIndex].value;
+
+            var CtLevelSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtLevel");
+            var CtselectedLevel = CtLevelSel.options[CtLevelSel.selectedIndex].value;
+
+            var CtCountrySel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtCountry");
+            var CtselectedCtCountry = CtCountrySel.options[CtCountrySel.selectedIndex].value;
+
+            var CtStatusSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtStatus");
+            var CtselectedStatus = CtStatusSel.options[CtStatusSel.selectedIndex].value;
+
+            var CtAreaSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtArea");
+            var CtselectedArea = CtAreaSel.options[CtAreaSel.selectedIndex].value;
+
+            var CtPersonaSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtPersona");
+            var CtselectedPersona = CtPersonaSel.options[CtPersonaSel.selectedIndex].value;
+
+            var emailstatusSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ddlEmailStatus");
+            var selectedemailstatus = emailstatusSel.options[emailstatusSel.selectedIndex].value;
+
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveContact",
+                data: '{ t_contact_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                      '",t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                      '",salutation: "' + CtselectedSalutation +
+                      '",firstname: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtFirstName").value +
+                      '",lastname: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtLastName").value +
+                      '",title: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtTitle").value +
+                      '",level: "' + CtselectedLevel +
+                      '",physicalstreet: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtAddress").value +
+                      '",physicalcity: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtCity").value +
+                      '",physicalstate: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtState").value +
+                      '",physicalpostalcode: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtZip").value +
+                      '",physicalcountry: "' + CtselectedCtCountry +
+                      '",phone: "' + $("#ctl00_ctl00_ContentPlaceHolder1_pCtPhone").intlTelInput("getNumber", intlTelInputUtils.numberFormat.E164) +
+                      '",extn: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtPhoneExtn").value +
+                      '",fax: "' + $("#ctl00_ctl00_ContentPlaceHolder1_pCtFax").intlTelInput("getNumber", intlTelInputUtils.numberFormat.E164) +
+                      '",cellphone: "' + $("#ctl00_ctl00_ContentPlaceHolder1_pCtCell").intlTelInput("getNumber", intlTelInputUtils.numberFormat.E164) +
+                      '",pbx: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtPBX").value +
+                      '",email: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtEmail").value +
+                      '",linkedin: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtLinkedIn").value +
+                      '",area: "' + CtselectedArea +
+                      '",status: "' + CtselectedStatus +
+                      '",persona: "' + CtselectedPersona +
+                      '",description: "' + escape(document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtDescription").value) +
+                      '",emailstatusid: "' + selectedemailstatus + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value = data.d;
+                    $("#editct").hide();
+					$("#AllowAlert").hide();
+
+                },
+                failure: function(response) {
+                    alert(response.d);
+                    return false;
+                }
+                }); 
+            return true;
+        }
+
+        function SaveCall(calltype) {
+            
+            var PATypeSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pType");
+            var selectedPAType = PATypeSel.options[PATypeSel.selectedIndex].text;
+
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveCall",
+                data: '{ t_contact_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                      '",t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                      '",calledphone: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtPhone").value +
+                      '",calltype: "' + calltype +
+                      '",acttype: "' + selectedPAType +
+                      '",description: "' + escape(document.getElementById("txtCallLog").value)  + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    $("#addCallLog").hide();
+                    eval(<%=BindActivity %>);
+                },
+                failure: function(response) {
+                    alert(response.d);
+                }
+                }); 
+            }
+
+        function SaveNote() {
+
+			$.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveNote",
+                data: '{ t_contact_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                      '",t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                      '",description: "' + escape(document.getElementById("txtpNote").value)  + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function(data) {
+                    $("#addNotes").hide();
+                    eval(<%=BindActivity %>);
+                },
+                failure: function(response) {
+                    alert(response.d);
+                }
+                }); 
+            }
+
+        function SaveCallDialedCell() {
+
+            var PATypeSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pType");
+            var selectedPAType = PATypeSel.options[PATypeSel.selectedIndex].text;
+
+            var o = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lnkCtCellPhoneHdn").innerHTML;
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveCall",
+                data: '{ t_contact_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                      '",t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                      '",calledphone: "' + o +
+                      '",calltype: "' + 'S' +
+                      '",acttype: "' + selectedPAType +
+                      '",description: "' + escape(document.getElementById("txtCallLog").value) + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                },
+                failure: function (response) {
+                    alert(response.d);
+                    return false;
+                }
+            });
+
+            //return false;
+        }
+
+        function SaveCallDialed(ViewType)
+        {
+            var PATypeSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pType");
+            var selectedPAType = PATypeSel.options[PATypeSel.selectedIndex].text;
+
+            if (ViewType == 'Co') {
+                  var o = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lnkCoPhoneHdn").innerHTML;
+            }
+            else if (ViewType == 'Ct') {
+                  var o = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lnkCtPhoneHdn").innerHTML;
+            } 
+            else if (ViewType == 'CtCo') {
+                var o = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_lnkCtCoPhoneHdn").innerHTML;
+            }
+            $.ajax({
+                    type: "POST",
+                    url: "WebMethods.aspx/SaveCall",
+                    data: '{ t_contact_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                          '",t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                          '",calledphone: "' + o +
+                          '",calltype: "' + 'S' +
+                          '",acttype: "' + selectedPAType +
+                          '",description: "' + escape(document.getElementById("txtCallLog").value) + '"}',
+                    contentType: "application/json; charset=utf-8",
+                    async: false,
+                    dataType: "json",
+                    success: function(data) {
+                    },
+                    failure: function(response) {
+                        alert(response.d);
+                        return false;
+                    }
+                });
+                   
+            //return false;
+        }
+
+    function ItemSelected(source, eventArgs) {
+        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnValue").value = eventArgs.get_value();
+        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDescription").value = eventArgs.get_text();
+        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDescription").focus();
+    }
+
+
+    function SaveAccountAttr()   {
+
+        var AttrType = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_litAttrType").innerHTML;
+        if (AttrType == 'System' || AttrType == 'Profit Recovery Firm') {
+            var AttrDesc = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDescription").value;
+        }
+        else {
+            var AttrDesc = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_txtDesc1").value;
+        }
+        validated = true;
+
+        $.ajax({
+            type: "POST",
+            url: "WebMethods.aspx/ValidateDupAttr",
+            data: '{    AttrType: "' + AttrType +
+                    '", AttrDesc: "' + AttrDesc  + 
+                  '",AccountId: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value + '"}',
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            dataType: "json",
+            success: function(data) {
+            if(data.d == false){
+                alert('Attribute already added.');
+                validated = false;
+                return false;
+                }
+            },
+            failure: function(response) {
+                alert(response.d);
+            }
+        });
+
+        if (!validated)
+            return false; 
+        else
+        {
+            validated = true;       
+            
+            $('#showwait').click();
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveAccountAttr",
+                data: '{ CoId: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                      '",AttrType: "' + AttrType +
+                      '",TypeId: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnValue").value +
+                      '",Description: "' + AttrDesc + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.d != 0 ){
+                        $("#addAcctAttr").hide();
+                        eval(<%=BindAccount %>);
+                    }
+                },
+                failure: function(response) {
+                    alert("Failure");
+                    alert(data.d);
+                    alert(response.d);
+                }
+                }); 
+            }
+            return false;
+        }
+
+    function SaveInvent()   {
+
+        $('#showwait').click();
+        var InvSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pddlInv");
+        var selectedInv = InvSel.options[InvSel.selectedIndex].value;
+
+        $.ajax({
+            type: "POST",
+            url: "WebMethods.aspx/SaveInvent",
+            data: '{ CoId: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                    '",CtId: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value +
+                    '",InvId: "' + selectedInv + '"}',
+            contentType: "application/json; charset=utf-8",
+            async: false,
+            dataType: "json",
+            success: function(data) {
+                if (data.d != 0 ){
+                    $("#addInvent").hide();
+                    eval(<%=BindContact %>);
+                }
+            },
+            failure: function(response) {
+                alert("Failure");
+                alert(data.d);
+                alert(response.d);
+            }
+            }); 
+        }
+
+        function SaveOwner() {
+            var OwnerSel = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ddlOwner");
+            var selectedOwner = OwnerSel.options[OwnerSel.selectedIndex].value;
+
+            $.ajax({
+                type: "POST",
+                url: "WebMethods.aspx/SaveOwner",
+                data: '{ t_account_id: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value +
+                      '",owner: "' + selectedOwner  + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function(data) {
+                    $("#changeOwner").hide();
+                    eval(<%=BindAccount %>);
+                },
+                failure: function(response) {
+                    alert(response.d);
+                }
+                }); 
+            }
+
+    </script>
+
+ <script type="text/javascript">
+        function newemail() {
+            document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pSendto").value = document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pCtEmail").value;
+            $("#newemail").show();
+        }
+
+        function settemplate(ddl, val) {
+
+            if (document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pSendto").value.trim() == '') {
+                alert("To box required, in order to select a template.");
+                document.getElementById("ctl00_ctl00_ContentPlaceHolder1_ddlSubject").value = '';
+                return false;
+            }
+            //var strBody = escape(document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pEmailBody").value);
+            $.ajax({
+                type: "POST",
+                url: "Emails.aspx/SetMessage",
+                data: '{EmailTemplateID: "' + ddl.value +
+                      '",SendTo: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pSendto").value +
+                      '",ContactId: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdncontactId").value + 
+                        '",acctid: "' + document.getElementById("ctl00_ctl00_ContentPlaceHolder1_hdnaccountId").value + '"}',
+                contentType: "application/json; charset=utf-8",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.d[0] != '') {
+                        //$('#ckeditor2').val(data.d[0]);
+                        $("#<%= pEmailBody.ClientID %>").val(data.d[0]);
+                        CKEDITOR.instances.ckeditor2.setData(data.d[0]);
+                        //CKEDITOR.instances['ctl00_ctl00_ContentPlaceHolder1_pEmailBody'].setData(data.d[0]);
+                        document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pSubject").value = data.d[1];
+                        $("#newemail").show();
+                    }
+                },
+                failure: function (response) {
+                    alert(response.d);
+                }
+            });
+
+            return false;
+        }
+
+    </script>
+    
+    <section class="container"><!--sales dashboard!-->
+        <asp:HiddenField runat="server" ID="hdnmrid" />
+	        <asp:HiddenField runat="server" ID="frommicroregionreport" />
+
+        <asp:HiddenField runat="server" ID="hdnaccountId" />
+        <asp:HiddenField runat="server" ID="hdnguidaccountId" />
+        <asp:HiddenField runat="server" ID="hdncontactId" />
+        <asp:HiddenField runat="server" ID="hdnguidcontactId" />
+        <asp:HiddenField runat="server" ID="hdnownerId" />
+        <input type="button" style="display:none" id="btnAcctRefresh" runat="server" />
+        <input type="button" style="display:none" id="btnCtRefresh" runat="server" />
+        <input type="button" style="display:none" id="btnActRefresh" runat="server" />
+
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        <ContentTemplate>
+			<div class="top_namebar"><!--name bar!-->
+				<div class="name_left">
+				    <img src="images/company.png" /> 
+					<span id="shdrCo" runat="server">
+					<asp:Literal ID="lithdrCo" runat="server"></asp:Literal></span>
+				</div>
+				<div class="name_left name_rt">
+				    <a href="#" onclick='ownerchange();'><img src="images/user.png" /></a>
+				    <span id="spanAO" runat="server" style="color: black"><asp:Literal ID="lithdrAO" runat="server"></asp:Literal></span>
+				</div>
+				<div class="clr"></div>
+			</div><!--name bar!-->
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="btnAcctRefresh" EventName="serverclick" />
+        </Triggers>
+        </asp:UpdatePanel>
+
+	    <div class="after_search"><!--after search section!-->
+                                            	        
+    	    <div class="comp_left"><!-- left section!-->
+    	        <asp:UpdatePanel runat="server">
+    	        <ContentTemplate>
+    	        <table id="tblAccount" runat="server" width="100%" border="0" cellspacing="0" cellpadding="0" class="comp_detail" style="display:block">
+                    <tr>
+                        <td width="25%" valign="top"><span>Company</span></td>
+                        <td width="48%" valign="top"><asp:Literal ID="litCoName" runat="server"></asp:Literal></td>
+                        <td width="38%" align="right" valign="top"> 
+                            <a href="#" onclick='editco();'><img src="images/edit.png" /></a>&nbsp;
+                            <!--<img src="images/delete.png" />-->
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td valign="top"><span>Address</span></td>
+                        <td valign="top"><asp:Literal ID="litAddress" runat="server"></asp:Literal>,<br />
+                                        <asp:Literal ID="litCityStZip" runat="server"></asp:Literal>,<br /> 
+                                        <asp:Literal ID="litCountry" runat="server"></asp:Literal></td>
+                        <td valign="top" align="right">
+                            <a target="_blank" style="color:White" id="aCoMap" runat="server">
+                                <img src="images/location.png" /></a>
+                        </td>
+                    </tr>
+                            
+                    <tr>
+                        <td valign="top"><span>Phone </span></td>
+                        <td colspan="2" valign="top">
+                            <a onclick="SaveCallDialed('Co');" id="lnkCoPhoneHdn" runat="server" >
+                                <asp:Literal ID="litPhone" runat="server"></asp:Literal>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Industry </span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litIndustry" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Revenue</span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litRevenue" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>No of Invoices </span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litInvoices" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Ticker </span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litTicker" runat="server"></asp:Literal> &nbsp;
+                            <a id="aTicker" runat="server" href="" target="_blank">Google Finance Lookup</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Website</span></td>
+                        <td colspan="2" valign="top">
+                            <a id="aWebsite" runat="server" href="" target="_blank"><asp:Literal ID="litWebsite" runat="server"></asp:Literal></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Tier </span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litTier" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Micro Region </span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litMicroRegion" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Status</span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litStatus" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Description</span></td>
+                        <td colspan="2" valign="top">
+                            <a href="#" id="lnkDet" runat="server" >Click here to view description</a>
+                            <cc1:BalloonPopupExtender id="Bal" TargetControlID="lnkDet" runat="server"
+                                BalloonPopupControlID="pnlTip" Position="TopRight" BalloonStyle="Rectangle" ScrollBars="Auto" 
+                                DisplayOnMouseOver="true" DisplayOnFocus="false" DisplayOnClick="true" BalloonSize="Large">
+                            </cc1:BalloonPopupExtender>
+                            <div style="display:none;z-index:99999">
+                                <asp:Panel runat="server" ID="pnlTip"><div runat="server" id="txtacctdesc"></div></asp:Panel>
+                            </div>
+                        </td>
+                    </tr>
+               </table>
+    	        </ContentTemplate>
+    	        <Triggers>
+    	            <asp:AsyncPostBackTrigger ControlID="btnAcctRefresh" EventName="serverclick" />
+    	        </Triggers>
+    	        </asp:UpdatePanel>
+
+    	        <asp:UpdatePanel ID="UpdatePanelCt" runat="server" UpdateMode="Conditional">
+    	        <ContentTemplate>
+                <table id="tblContact" runat="server" width="100%" border="0" cellspacing="0" cellpadding="0" class="comp_detail">
+                    <tr>
+                        <td width="25%" valign="top"><span>Name</span></td>
+                        <td width="48%" valign="top"><asp:Literal ID="litCtName" runat="server"></asp:Literal></td>
+                        <td width="27%" align="left" valign="top"> 
+							<asp:LinkButton ID="lnkNLT" runat="server"
+								Text="<img src='images/Delete.png' />" OnClientClick="return delconfirm();" ToolTip="No longer there"></asp:LinkButton>
+                            <a onclick='editct();' href="#"><img src="images/edit.png"  /></a>&nbsp;
+                            <a id="aLinkedIn" runat="server" target="_blank"><img src="images/link-in.png" /></a>                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Title</span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litCtTitle" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Persona</span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litCtPersona" runat="server"></asp:Literal></td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Phone </span></td>
+                        <td colspan="2" valign="top">
+                            <a onclick="SaveCallDialed('Ct');" id="lnkCtPhoneHdn" runat="server" >
+                                <asp:Literal ID="litCtPhone" runat="server"></asp:Literal>
+                            </a>
+                            Extn: <asp:Literal ID="litCtPhoneExtn" runat="server"></asp:Literal>
+                            <%--<i class="sprite" runat="server" id="phonecolor" style="margin-top:-15px;margin-left:230px"></i>--%>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Cell Phone </span></td>
+                        <td colspan="2" valign="top">
+                            <a onclick="SaveCallDialedCell();" id="lnkCtCellPhoneHdn" runat="server" >
+                                <asp:Literal ID="litCtCellPhone" runat="server"></asp:Literal>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Company Phone </span></td>
+                        <td colspan="2" valign="top">
+                            <a onclick="SaveCallDialed('CtCo');" id="lnkCtCoPhoneHdn" runat="server" >
+                                <asp:Literal ID="litCtCoPhone" runat="server"></asp:Literal>
+                            </a>
+                        </td>
+                    </tr>
+                    <%-- <tr>
+                        <td valign="top"><span>PBX</span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litCtPBX" runat="server"></asp:Literal></td>
+                    </tr> --%>
+                    <tr>
+                        <td valign="top"><span>Email </span></td>
+                        <td valign="top"><a href="#" onclick="newemail()" ><asp:Literal ID="litCtEmail" runat="server"></asp:Literal></a>
+                            <div><span>Email Status: </span><asp:Literal ID="litEmailStatus" runat="server"></asp:Literal></div>
+                        </td>
+                        <td>
+                        <i class="sprite" runat="server" id="optoutcolor" style="margin-left:-18px;"></i>
+                        <%--<i class="sprite" runat="server" id="emailinfocolor" style="margin-top:-15px;margin-left:230px"></i>--%>
+                        <a style="margin-top:-15px;" visible="false" runat="Server" class="small_btn" href="#" id="btnInclude" onclick="return confirm('Are you sure to include this email?');" onserverclick="updateemail"><span>Include</span></a>
+                        <img src="images/ex.jpg" id="imgex" runat="server" />
+                        <a style="margin-top:-15px;" visible="false" runat="Server" class="small_btn" href="#" id="btnExlude" title="Exclude Contact from Email Notifications." onclick="return confirm('Are you sure to exclude this email?');" onserverclick="excludeemail"><span>Exclude</span></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td valign="top"><span>Address </span></td>
+                        <td colspan="2" valign="top"><asp:Literal ID="litCtAddress" runat="server"></asp:Literal>,<br />
+                                        <asp:Literal ID="litCtCityStZip" runat="server"></asp:Literal>,<br /> 
+                                        <asp:Literal ID="litCtCountry" runat="server"></asp:Literal></td>
+                    </tr>
+                </table>
+    	        </ContentTemplate>
+    	        </asp:UpdatePanel>
+
+                <div id="tblQuickClick" runat="server">
+                    <h3>Quick Click</h3>
+                    <div class="quick_click">
+            	        <a href="#" onclick='$("#SendEmail").show();' class="send_mail">Send Email </a>
+                        <a href="#" onclick='document.getElementById("ctl00_ctl00_ContentPlaceHolder1_pType").required = true;$("#addCallLog").show();' class="call_log">Log a call </a>
+                        <a href="#" onclick='$("#addNotes").show();' class="notes">Enter notes </a>
+                    </div>
+                </div>
+                   
+		        <h3>Company Attributes </h3>
+    	        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+    	        <ContentTemplate>
+                <div class="att_main"><!--attribute section!-->
+    	            <div class="att_left">
+        	            <h4>Systems <a href="#" onclick="editcoattr('System');">New</a></h4>
+        	            <asp:Repeater ID="rptSys" runat="server">
+        	                <ItemTemplate>
+                                <p><asp:literal ID="litsysdesc" runat="server" Text='<%#Eval("sysdescription")%>'></asp:literal>
+    	                            <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("acctothrowid")%>' ID="ActDel" runat="server"
+                                        Text="<img src='images/d_w.png'>" OnClientClick="return delconfirm();"></asp:LinkButton>
+                                </p>
+        	                </ItemTemplate>
+        	            </asp:Repeater>
+                    </div>
+                    
+                    <div class="att_mid">
+        	            <h4>Profit Recovery Firm <a href="#"  onclick="editcoattr('Profit Recovery Firm');">New</a></h4>
+        	            <asp:Repeater ID="rptPR" runat="server">
+        	                <ItemTemplate>
+                                <p><asp:literal ID="litprdesc" runat="server" Text='<%#Eval("prdescription")%>'></asp:literal>
+	                            <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("acctothrowid")%>' ID="ActDel" runat="server"
+                                    Text="<img src='images/d_w.png'>" OnClientClick="return delconfirm();"></asp:LinkButton>
+        	                </ItemTemplate>
+        	            </asp:Repeater>
+                    </div>
+                    <div class="clr"></div>
+                    <div class="att_rt">
+        	            <h4>Use Audit software ? <a href="#"  onclick="editcoattr('Use Audit Software');">New</a></h4>
+        	            <asp:Repeater ID="rptAS" runat="server">
+        	                <ItemTemplate>
+                                <p><asp:literal ID="litdesc" runat="server" Text='<%#Eval("description")%>'></asp:literal>
+    	                            <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("acctothrowid")%>' ID="ActDel" runat="server"
+                                        Text="<img src='images/d_w.png'>" OnClientClick="return delconfirm();"></asp:LinkButton>
+                                </p>
+        	                </ItemTemplate>
+        	            </asp:Repeater>
+                    </div>
+                </div><!--attribute section!-->
+    	        </ContentTemplate>
+    	        <Triggers>
+    	            <asp:AsyncPostBackTrigger ControlID="btnAcctRefresh" EventName="serverclick" />
+    	        </Triggers>
+    	        </asp:UpdatePanel>
+
+                <div id="tblInv" runat="server">
+    	        <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+    	        <ContentTemplate>
+                    <div class="heading_row crasul_sec">
+		                <h3>Inventories Sent <a onclick='addInvent();' href="#" id="btnNewAct">New</a></h3>
+                    </div>
+    	            <table id="Table1" width="100%" border="0" cellspacing="0" cellpadding="0" class="comp_detail" style="display:block">
+                        <tbody>
+                            <asp:Repeater ID="rptInv" runat="server">
+                                <ItemTemplate>
+                                <tr>
+                                    <td width="25%" valign="top" style="color: #404040;"><asp:literal ID="litInvDt" runat="server" Text='<%#Eval("activity_date")%>'></asp:literal></td>
+                                    <td width="48%" valign="top" style="color: #404040;"><asp:literal ID="litInvDesc" runat="server" Text='<%#Eval("InventoryShort")%>'></asp:literal></td>
+                                    <td width="38%" align="right" valign="top"> 
+                                        <asp:LinkButton ID="lnkInvDel" runat="server" OnClientClick="return delconfirm();"
+                                            CommandName="Del" CommandArgument='<%#Eval("activity_id")%>' Text="<img src='images/Delete.png' />"></asp:LinkButton>&nbsp;
+                                    </td>
+                                </tr>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </tbody>
+    	            </table>
+    	        </ContentTemplate>
+    	        <Triggers>
+    	            <asp:AsyncPostBackTrigger ControlID="btnCtRefresh" EventName="serverclick" />
+    	        </Triggers>
+    	        </asp:UpdatePanel>
+                </div>
+
+
+
+            </div><!-- left section!-->
+            
+            <div class="right_main"><!--rightmain section!-->
+        	    <div class="crasul_sec small_menu"><!--Right menu section!-->
+        	    <div class="flip_button">
+        	        <%--<asp:LinkButton id="lnkflip" runat="server" ><img src="images/flip_button.png" /></asp:LinkButton>--%>
+        	        <a href="#" id="lnkflip" runat="server" ><img src="images/flip_button.png" /></a>
+        	    </div>
+        	    <ul>
+            	    <li class="dash">
+            	        <a id="aEvent" runat="server" class="tooltips" href="Events.aspx">
+                	        <em>Event</em>
+            		        <img src="images/event.png" />
+                            <span><asp:Literal ID="litEvents" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                
+                    <li class="opp">
+            	        <a  id="aMeeting" runat="server" class="tooltips" href="">
+                	        <em>Meetings</em>
+            		        <img src="images/meeting1.png" />
+                	        <span><asp:Literal ID="litMeetings" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="task">
+            	        <a  id="aSurvey" runat="server" class="tooltips" href="">
+                	        <em>Survey</em>
+            		        <img src="images/survey1.png" />
+                            <span><asp:Literal ID="litSurveys" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="list">
+            	        <a  id="aOpportunity" runat="server" class="tooltips" href="">
+                	        <em>Opportunities</em>
+            		        <img src="images/opp1.png" />
+                            <span id="spanOppors" runat="server"><asp:Literal ID="litOppors" runat="server"></asp:Literal></span>
+						</a>
+                    </li>
+                   <li class="account">
+            	        <a  id="aActivity" runat="server" class="tooltips" href="">
+                	        <em>Activity</em>
+            		        <img src="images/activity.png" />
+                            <span><asp:Literal ID="litActivities" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="contact">
+            	        <a  id="aWeblog" runat="server" class="tooltips" href="">
+                	        <em>Weblogs</em>
+            		        <img src="images/weblog.png" />
+                            <span><asp:Literal ID="litWebLogs" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="meet">
+            	        <a  id="aList" runat="server" class="tooltips" href="">
+                	        <em>Lists</em>
+            		        <img src="images/list1.png" />
+                            <span><asp:Literal ID="litLists" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="market">
+            	        <a id="aAttachment" runat="server" href="" class="tooltips">
+                	        <em>Attachments</em>
+            		        <img src="images/attachment.png" />
+                            <span><asp:Literal ID="litAttachs" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="rfp">
+            	        <a id="aCall" runat="server" class="tooltips" href="">
+                	        <em>Calls</em>
+            		        <img src="images/calls.png" />
+                            <span><asp:Literal ID="litCalls" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="report">
+            	        <a id="aEmail" runat="server"  class="tooltips" href="">
+                	        <em>Emails</em>
+            		        <img src="images/emails.png" />
+                            <span><asp:Literal ID="litEmails" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                    <li class="admin">
+            	        <a id="aAccount" runat="server" class="tooltips" href="">
+                	        <em>Contacts</em>
+            		        <img src="images/contacts.png" />
+                            <span><asp:Literal ID="litContacts" runat="server"></asp:Literal></span>
+                        </a>
+                    </li>
+                   <!-- <li class="resize">
+            	        <a href="#"><img src="images/resize.png" /></a>
+                    </li>-->
+                </ul>
+                <div class="clr"></div>
+                </div>
+<%--                <asp:UpdatePanel ID="conUpd" runat="server">
+                    <ContentTemplate>--%>
+                        <asp:ContentPlaceHolder ID="ContentMain" Runat="Server"></asp:ContentPlaceHolder>
+<%--                    </ContentTemplate>
+                </asp:UpdatePanel>--%>
+            </div>
+            <div class="clr"></div>
+        </div>
+
+    </section>
+                        
+    <section class='e_detailpop' id='editco' style="display:none"><!--Edit Company!-->
+
+	    <div class="create_edit" id="divAcct">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='CancelAccount();' /></div>
+            <h3>Create / Edit Account</h3>
+            <div class="create_form  create_fm_new"><!--Create Edit form!-->
+       	        <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Company Name:</label></div>
+                        <div class="inp_f">
+                            <input id="pCoName" runat="server" type="text" maxlength="70" required />
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Street Address:</label></div>
+                        <div class="inp_f"><input id="pAddress" runat="server" type="text" maxlength="150" /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                                 
+                 <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>City:</label></div>
+                        <div class="inp_f"><input id="pCity" runat="server" type="text" maxlength="100" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>State:</label></div>
+                        <div class="inp_f"><input id="pState" runat="server" type="text"  maxlength="50" /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+                    <div class="create_left"><!--left section!-->
+                        <div class="field_name"><label>Zip Code:</label></div>
+                        <div class="inp_f"><input id="pZip" runat="server" type="text"  maxlength="10"  /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+                        <div class="field_name"><label>Country:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList id="pCountry" runat="server">
+                                <asp:listitem value="Select ">Select </asp:ListItem>
+                                <asp:listitem value="AF">Afghanistan</asp:ListItem>
+                                <asp:listitem value="AX">Åland Islands</asp:ListItem>
+                                <asp:listitem value="AL">Albania</asp:ListItem>
+                                <asp:listitem value="DZ">Algeria</asp:ListItem>
+                                <asp:listitem value="AS">American Samoa</asp:ListItem>
+                                <asp:listitem value="AD">Andorra</asp:ListItem>
+                                <asp:listitem value="AO">Angola</asp:ListItem>
+                                <asp:listitem value="AI">Anguilla</asp:ListItem>
+                                <asp:listitem value="AQ">Antarctica</asp:ListItem>
+                                <asp:listitem value="AG">Antigua and Barbuda</asp:ListItem>
+                                <asp:listitem value="AR">Argentina</asp:ListItem>
+                                <asp:listitem value="AM">Armenia</asp:ListItem>
+                                <asp:listitem value="AW">Aruba</asp:ListItem>
+                                <asp:listitem value="AU">Australia</asp:ListItem>
+                                <asp:listitem value="AT">Austria</asp:ListItem>
+                                <asp:listitem value="AZ">Azerbaijan</asp:ListItem>
+                                <asp:listitem value="BS">Bahamas</asp:ListItem>
+                                <asp:listitem value="BH">Bahrain</asp:ListItem>
+                                <asp:listitem value="BD">Bangladesh</asp:ListItem>
+                                <asp:listitem value="BB">Barbados</asp:ListItem>
+                                <asp:listitem value="BY">Belarus</asp:ListItem>
+                                <asp:listitem value="BE">Belgium</asp:ListItem>
+                                <asp:listitem value="BZ">Belize</asp:ListItem>
+                                <asp:listitem value="BJ">Benin</asp:ListItem>
+                                <asp:listitem value="BM">Bermuda</asp:ListItem>
+                                <asp:listitem value="BT">Bhutan</asp:ListItem>
+                                <asp:listitem value="BO">Bolivia, Plurinational State of</asp:ListItem>
+                                <asp:listitem value="BQ">Bonaire, Sint Eustatius and Saba</asp:ListItem>
+                                <asp:listitem value="BA">Bosnia and Herzegovina</asp:ListItem>
+                                <asp:listitem value="BW">Botswana</asp:ListItem>
+                                <asp:listitem value="BV">Bouvet Island</asp:ListItem>
+                                <asp:listitem value="BR">Brazil</asp:ListItem>
+                                <asp:listitem value="IO">British Indian Ocean Territory</asp:ListItem>
+                                <asp:listitem value="BN">Brunei Darussalam</asp:ListItem>
+                                <asp:listitem value="BG">Bulgaria</asp:ListItem>
+                                <asp:listitem value="BF">Burkina Faso</asp:ListItem>
+                                <asp:listitem value="BI">Burundi</asp:ListItem>
+                                <asp:listitem value="KH">Cambodia</asp:ListItem>
+                                <asp:listitem value="CM">Cameroon</asp:ListItem>
+                                <asp:listitem value="CA">Canada</asp:ListItem>
+                                <asp:listitem value="CV">Cape Verde</asp:ListItem>
+                                <asp:listitem value="KY">Cayman Islands</asp:ListItem>
+                                <asp:listitem value="CF">Central African Republic</asp:ListItem>
+                                <asp:listitem value="TD">Chad</asp:ListItem>
+                                <asp:listitem value="CL">Chile</asp:ListItem>
+                                <asp:listitem value="CN">China</asp:ListItem>
+                                <asp:listitem value="CX">Christmas Island</asp:ListItem>
+                                <asp:listitem value="CC">Cocos (Keeling) Islands</asp:ListItem>
+                                <asp:listitem value="CO">Colombia</asp:ListItem>
+                                <asp:listitem value="KM">Comoros</asp:ListItem>
+                                <asp:listitem value="CG">Congo</asp:ListItem>
+                                <asp:listitem value="CD">Congo, the Democratic Republic of the</asp:ListItem>
+                                <asp:listitem value="CK">Cook Islands</asp:ListItem>
+                                <asp:listitem value="CR">Costa Rica</asp:ListItem>
+                                <asp:listitem value="CI">Côte d'Ivoire</asp:ListItem>
+                                <asp:listitem value="HR">Croatia</asp:ListItem>
+                                <asp:listitem value="CU">Cuba</asp:ListItem>
+                                <asp:listitem value="CW">Curaçao</asp:ListItem>
+                                <asp:listitem value="CY">Cyprus</asp:ListItem>
+                                <asp:listitem value="CZ">Czech Republic</asp:ListItem>
+                                <asp:listitem value="DK">Denmark</asp:ListItem>
+                                <asp:listitem value="DJ">Djibouti</asp:ListItem>
+                                <asp:listitem value="DM">Dominica</asp:ListItem>
+                                <asp:listitem value="DO">Dominican Republic</asp:ListItem>
+                                <asp:listitem value="EC">Ecuador</asp:ListItem>
+                                <asp:listitem value="EG">Egypt</asp:ListItem>
+                                <asp:listitem value="SV">El Salvador</asp:ListItem>
+                                <asp:listitem value="GQ">Equatorial Guinea</asp:ListItem>
+                                <asp:listitem value="ER">Eritrea</asp:ListItem>
+                                <asp:listitem value="EE">Estonia</asp:ListItem>
+                                <asp:listitem value="ET">Ethiopia</asp:ListItem>
+                                <asp:listitem value="FK">Falkland Islands (Malvinas)</asp:ListItem>
+                                <asp:listitem value="FO">Faroe Islands</asp:ListItem>
+                                <asp:listitem value="FJ">Fiji</asp:ListItem>
+                                <asp:listitem value="FI">Finland</asp:ListItem>
+                                <asp:listitem value="FR">France</asp:ListItem>
+                                <asp:listitem value="GF">French Guiana</asp:ListItem>
+                                <asp:listitem value="PF">French Polynesia</asp:ListItem>
+                                <asp:listitem value="TF">French Southern Territories</asp:ListItem>
+                                <asp:listitem value="GA">Gabon</asp:ListItem>
+                                <asp:listitem value="GM">Gambia</asp:ListItem>
+                                <asp:listitem value="GE">Georgia</asp:ListItem>
+                                <asp:listitem value="DE">Germany</asp:ListItem>
+                                <asp:listitem value="GH">Ghana</asp:ListItem>
+                                <asp:listitem value="GI">Gibraltar</asp:ListItem>
+                                <asp:listitem value="GR">Greece</asp:ListItem>
+                                <asp:listitem value="GL">Greenland</asp:ListItem>
+                                <asp:listitem value="GD">Grenada</asp:ListItem>
+                                <asp:listitem value="GP">Guadeloupe</asp:ListItem>
+                                <asp:listitem value="GU">Guam</asp:ListItem>
+                                <asp:listitem value="GT">Guatemala</asp:ListItem>
+                                <asp:listitem value="GG">Guernsey</asp:ListItem>
+                                <asp:listitem value="GN">Guinea</asp:ListItem>
+                                <asp:listitem value="GW">Guinea-Bissau</asp:ListItem>
+                                <asp:listitem value="GY">Guyana</asp:ListItem>
+                                <asp:listitem value="HT">Haiti</asp:ListItem>
+                                <asp:listitem value="HM">Heard Island and McDonald Islands</asp:ListItem>
+                                <asp:listitem value="VA">Holy See (Vatican City State)</asp:ListItem>
+                                <asp:listitem value="HN">Honduras</asp:ListItem>
+                                <asp:listitem value="HK">Hong Kong</asp:ListItem>
+                                <asp:listitem value="HU">Hungary</asp:ListItem>
+                                <asp:listitem value="IS">Iceland</asp:ListItem>
+                                <asp:listitem value="IN">India</asp:ListItem>
+                                <asp:listitem value="ID">Indonesia</asp:ListItem>
+                                <asp:listitem value="IR">Iran, Islamic Republic of</asp:ListItem>
+                                <asp:listitem value="IQ">Iraq</asp:ListItem>
+                                <asp:listitem value="IE">Ireland</asp:ListItem>
+                                <asp:listitem value="IM">Isle of Man</asp:ListItem>
+                                <asp:listitem value="IL">Israel</asp:ListItem>
+                                <asp:listitem value="IT">Italy</asp:ListItem>
+                                <asp:listitem value="JM">Jamaica</asp:ListItem>
+                                <asp:listitem value="JP">Japan</asp:ListItem>
+                                <asp:listitem value="JE">Jersey</asp:ListItem>
+                                <asp:listitem value="JO">Jordan</asp:ListItem>
+                                <asp:listitem value="KZ">Kazakhstan</asp:ListItem>
+                                <asp:listitem value="KE">Kenya</asp:ListItem>
+                                <asp:listitem value="KI">Kiribati</asp:ListItem>
+                                <asp:listitem value="KP">Korea, Democratic People's Republic of</asp:ListItem>
+                                <asp:listitem value="KR">Korea, Republic of</asp:ListItem>
+                                <asp:listitem value="KW">Kuwait</asp:ListItem>
+                                <asp:listitem value="KG">Kyrgyzstan</asp:ListItem>
+                                <asp:listitem value="LA">Lao People's Democratic Republic</asp:ListItem>
+                                <asp:listitem value="LV">Latvia</asp:ListItem>
+                                <asp:listitem value="LB">Lebanon</asp:ListItem>
+                                <asp:listitem value="LS">Lesotho</asp:ListItem>
+                                <asp:listitem value="LR">Liberia</asp:ListItem>
+                                <asp:listitem value="LY">Libya</asp:ListItem>
+                                <asp:listitem value="LI">Liechtenstein</asp:ListItem>
+                                <asp:listitem value="LT">Lithuania</asp:ListItem>
+                                <asp:listitem value="LU">Luxembourg</asp:ListItem>
+                                <asp:listitem value="MO">Macao</asp:ListItem>
+                                <asp:listitem value="MK">Macedonia, the former Yugoslav Republic of</asp:ListItem>
+                                <asp:listitem value="MG">Madagascar</asp:ListItem>
+                                <asp:listitem value="MW">Malawi</asp:ListItem>
+                                <asp:listitem value="MY">Malaysia</asp:ListItem>
+                                <asp:listitem value="MV">Maldives</asp:ListItem>
+                                <asp:listitem value="ML">Mali</asp:ListItem>
+                                <asp:listitem value="MT">Malta</asp:ListItem>
+                                <asp:listitem value="MH">Marshall Islands</asp:ListItem>
+                                <asp:listitem value="MQ">Martinique</asp:ListItem>
+                                <asp:listitem value="MR">Mauritania</asp:ListItem>
+                                <asp:listitem value="MU">Mauritius</asp:ListItem>
+                                <asp:listitem value="YT">Mayotte</asp:ListItem>
+                                <asp:listitem value="MX">Mexico</asp:ListItem>
+                                <asp:listitem value="FM">Micronesia, Federated States of</asp:ListItem>
+                                <asp:listitem value="MD">Moldova, Republic of</asp:ListItem>
+                                <asp:listitem value="MC">Monaco</asp:ListItem>
+                                <asp:listitem value="MN">Mongolia</asp:ListItem>
+                                <asp:listitem value="ME">Montenegro</asp:ListItem>
+                                <asp:listitem value="MS">Montserrat</asp:ListItem>
+                                <asp:listitem value="MA">Morocco</asp:ListItem>
+                                <asp:listitem value="MZ">Mozambique</asp:ListItem>
+                                <asp:listitem value="MM">Myanmar</asp:ListItem>
+                                <asp:listitem value="NA">Namibia</asp:ListItem>
+                                <asp:listitem value="NR">Nauru</asp:ListItem>
+                                <asp:listitem value="NP">Nepal</asp:ListItem>
+                                <asp:listitem value="NL">Netherlands</asp:ListItem>
+                                <asp:listitem value="NC">New Caledonia</asp:ListItem>
+                                <asp:listitem value="NZ">New Zealand</asp:ListItem>
+                                <asp:listitem value="NI">Nicaragua</asp:ListItem>
+                                <asp:listitem value="NE">Niger</asp:ListItem>
+                                <asp:listitem value="NG">Nigeria</asp:ListItem>
+                                <asp:listitem value="NU">Niue</asp:ListItem>
+                                <asp:listitem value="NF">Norfolk Island</asp:ListItem>
+                                <asp:listitem value="MP">Northern Mariana Islands</asp:ListItem>
+                                <asp:listitem value="NO">Norway</asp:ListItem>
+                                <asp:listitem value="OM">Oman</asp:ListItem>
+                                <asp:listitem value="PK">Pakistan</asp:ListItem>
+                                <asp:listitem value="PW">Palau</asp:ListItem>
+                                <asp:listitem value="PS">Palestinian Territory, Occupied</asp:ListItem>
+                                <asp:listitem value="PA">Panama</asp:ListItem>
+                                <asp:listitem value="PG">Papua New Guinea</asp:ListItem>
+                                <asp:listitem value="PY">Paraguay</asp:ListItem>
+                                <asp:listitem value="PE">Peru</asp:ListItem>
+                                <asp:listitem value="PH">Philippines</asp:ListItem>
+                                <asp:listitem value="PN">Pitcairn</asp:ListItem>
+                                <asp:listitem value="PL">Poland</asp:ListItem>
+                                <asp:listitem value="PT">Portugal</asp:ListItem>
+                                <asp:listitem value="PR">Puerto Rico</asp:ListItem>
+                                <asp:listitem value="QA">Qatar</asp:ListItem>
+                                <asp:listitem value="RE">Réunion</asp:ListItem>
+                                <asp:listitem value="RO">Romania</asp:ListItem>
+                                <asp:listitem value="RU">Russian Federation</asp:ListItem>
+                                <asp:listitem value="RW">Rwanda</asp:ListItem>
+                                <asp:listitem value="BL">Saint Barthélemy</asp:ListItem>
+                                <asp:listitem value="SH">Saint Helena, Ascension and Tristan da Cunha</asp:ListItem>
+                                <asp:listitem value="KN">Saint Kitts and Nevis</asp:ListItem>
+                                <asp:listitem value="LC">Saint Lucia</asp:ListItem>
+                                <asp:listitem value="MF">Saint Martin (French part)</asp:ListItem>
+                                <asp:listitem value="PM">Saint Pierre and Miquelon</asp:ListItem>
+                                <asp:listitem value="VC">Saint Vincent and the Grenadines</asp:ListItem>
+                                <asp:listitem value="WS">Samoa</asp:ListItem>
+                                <asp:listitem value="SM">San Marino</asp:ListItem>
+                                <asp:listitem value="ST">Sao Tome and Principe</asp:ListItem>
+                                <asp:listitem value="SA">Saudi Arabia</asp:ListItem>
+                                <asp:listitem value="SN">Senegal</asp:ListItem>
+                                <asp:listitem value="RS">Serbia</asp:ListItem>
+                                <asp:listitem value="SC">Seychelles</asp:ListItem>
+                                <asp:listitem value="SL">Sierra Leone</asp:ListItem>
+                                <asp:listitem value="SG">Singapore</asp:ListItem>
+                                <asp:listitem value="SX">Sint Maarten (Dutch part)</asp:ListItem>
+                                <asp:listitem value="SK">Slovakia</asp:ListItem>
+                                <asp:listitem value="SI">Slovenia</asp:ListItem>
+                                <asp:listitem value="SB">Solomon Islands</asp:ListItem>
+                                <asp:listitem value="SO">Somalia</asp:ListItem>
+                                <asp:listitem value="ZA">South Africa</asp:ListItem>
+                                <asp:listitem value="GS">South Georgia and the South Sandwich Islands</asp:ListItem>
+                                <asp:listitem value="SS">South Sudan</asp:ListItem>
+                                <asp:listitem value="ES">Spain</asp:ListItem>
+                                <asp:listitem value="LK">Sri Lanka</asp:ListItem>
+                                <asp:listitem value="SD">Sudan</asp:ListItem>
+                                <asp:listitem value="SR">Suriname</asp:ListItem>
+                                <asp:listitem value="SJ">Svalbard and Jan Mayen</asp:ListItem>
+                                <asp:listitem value="SZ">Swaziland</asp:ListItem>
+                                <asp:listitem value="SE">Sweden</asp:ListItem>
+                                <asp:listitem value="CH">Switzerland</asp:ListItem>
+                                <asp:listitem value="SY">Syrian Arab Republic</asp:ListItem>
+                                <asp:listitem value="TW">Taiwan, Province of China</asp:ListItem>
+                                <asp:listitem value="TJ">Tajikistan</asp:ListItem>
+                                <asp:listitem value="TZ">Tanzania, United Republic of</asp:ListItem>
+                                <asp:listitem value="TH">Thailand</asp:ListItem>
+                                <asp:listitem value="TL">Timor-Leste</asp:ListItem>
+                                <asp:listitem value="TG">Togo</asp:ListItem>
+                                <asp:listitem value="TK">Tokelau</asp:ListItem>
+                                <asp:listitem value="TO">Tonga</asp:ListItem>
+                                <asp:listitem value="TT">Trinidad and Tobago</asp:ListItem>
+                                <asp:listitem value="TN">Tunisia</asp:ListItem>
+                                <asp:listitem value="TR">Turkey</asp:ListItem>
+                                <asp:listitem value="TM">Turkmenistan</asp:ListItem>
+                                <asp:listitem value="TC">Turks and Caicos Islands</asp:ListItem>
+                                <asp:listitem value="TV">Tuvalu</asp:ListItem>
+                                <asp:listitem value="UG">Uganda</asp:ListItem>
+                                <asp:listitem value="UA">Ukraine</asp:ListItem>
+                                <asp:listitem value="AE">United Arab Emirates</asp:ListItem>
+                                <asp:listitem value="GB">United Kingdom</asp:ListItem>
+                                <asp:listitem value="US">United States</asp:ListItem>
+                                <asp:listitem value="UM">United States Minor Outlying Islands</asp:ListItem>
+                                <asp:listitem value="UY">Uruguay</asp:ListItem>
+                                <asp:listitem value="UZ">Uzbekistan</asp:ListItem>
+                                <asp:listitem value="VU">Vanuatu</asp:ListItem>
+                                <asp:listitem value="VE">Venezuela, Bolivarian Republic of</asp:ListItem>
+                                <asp:listitem value="VN">Viet Nam</asp:ListItem>
+                                <asp:listitem value="VG">Virgin Islands, British</asp:ListItem>
+                                <asp:listitem value="VI">Virgin Islands, U.S.</asp:ListItem>
+                                <asp:listitem value="WF">Wallis and Futuna</asp:ListItem>
+                                <asp:listitem value="EH">Western Sahara</asp:ListItem>
+                                <asp:listitem value="YE">Yemen</asp:ListItem>
+                                <asp:listitem value="ZM">Zambia</asp:ListItem>
+                                <asp:listitem value="ZW">Zimbabwe</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Website:</label></div>
+                        <div class="inp_f"><input id="pWebsite" runat="server" type="text" maxlength="150" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label>Phone:</label></div>
+                        <div class="inp_f"><input id="pPhone" runat="server" type="text" maxlength="20" style="width:80%" /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                             
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Fax:</label></div>
+                        <div class="inp_f"><input id="pFax" runat="server" type="text" maxlength="20" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Industry:</label></div>
+                        <div class="inp_f"><input id="pIndustry" runat="server" type="text"  maxlength="150" /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                 
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Ownership:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pOwnership" runat="server">
+                                <asp:ListItem Value="Select "></asp:ListItem>
+                                <asp:ListItem Value="Other"></asp:ListItem>
+                                <asp:ListItem Value="Public"></asp:ListItem>
+                                <asp:ListItem Value="Private"></asp:ListItem>
+                                <asp:ListItem Value="Subsidiary"></asp:ListItem>
+                            </asp:DropDownList>                        
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label># of Employees:</label></div>
+                        <div class="inp_f"><input style="text-align:right" id="pEmployees" runat="server" type="text" maxlength="7" onfocus="reformatText(this)" onkeyup="reformatText(this)" /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+            
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Ticker:</label></div>
+                        <div class="inp_f"><input id="pTicker" runat="server" type="text" maxlength="20" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label>Invoice Range:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pInvRange" runat="server">
+                                <asp:ListItem Value="Select "></asp:ListItem>
+                                <asp:ListItem Value="Less than 100,000"></asp:ListItem>
+                                <asp:ListItem Value="100,000 - 500,000"></asp:ListItem>
+                                <asp:ListItem Value="500,000 - 1,000,000"></asp:ListItem>
+                                <asp:ListItem Value="1,000,000 - 3,000,000"></asp:ListItem>
+                                <asp:ListItem Value="Over 3,000,000"></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Annual Revenue:</label></div>
+                        <div class="inp_f"><input  style="text-align:right" id="pAnnRev" runat="server" type="text"  maxlength="15" onfocus="reformatText(this)"  onkeyup="reformatText(this)" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label>Tier:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pTier" runat="server" DataValueField="tiertype" DataTextField="tiertype">
+                            </asp:DropDownList>
+                                <%--<asp:ListItem Value="">None</asp:ListItem>
+                                <asp:ListItem Value="Rev to Small">Rev to Small</asp:ListItem>
+                                <asp:ListItem Value="SubValue">SubValue</asp:ListItem>
+                                <asp:ListItem Value="Value">Value</asp:ListItem>
+                                <asp:ListItem Value="Select">Select</asp:ListItem>
+                                <asp:ListItem Value="Premier">Premier</asp:ListItem>--%>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label># of Invoices:</label></div>
+                        <div class="inp_f"><input style="text-align:right" id="pInvoices" runat="server" type="text" maxlength="10" onfocus="reformatText(this)" onkeyup="reformatText(this)" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label>Status:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pStatus" runat="server"   DataTextField="stname" DataValueField="atstrowid" >
+                            </asp:DropDownList>   
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Owner:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pOwner" runat="server" DataTextField="username" DataValueField="userid">
+                                <asp:ListItem Value="Select "></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label>Micro Region:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pMicroRegion" runat="server" DataTextField ="mrname" DataValueField="mrid">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Date Validated?</label></div>
+                        <div class="inp_f"><input id="pdtVal" runat="server" type="text" class="date datepicker" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label></label></div>
+                        <div class="inp_f">
+                        </div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="create_left"><!--left section!-->
+        	            <div class="field_name"><label>Created By/On</label></div>
+                        <div class="inp_f"><strong><asp:Literal id="pCrtdByOn" runat="server" ></asp:Literal></strong></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+        	            <div class="field_name"><label>Updated By/On</label></div>
+                        <div class="inp_f"><strong><asp:Literal id="pUptdByOn" runat="server" ></asp:Literal></strong></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+   		            <div class="ct_left"><label>Description:</label></div>
+                    <div class="ct_rt"><textarea rows="1" id="pDescription" runat="server"></textarea></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_button">
+                    <a href="#" onclick="CancelAccount();"  class="cancel">Cancel</a>&nbsp;&nbsp; 
+                    <asp:Button ID="LinkButton11" runat="server" OnClick="btnAcctRefresh_ServerClick" OnClientClick="addremovevalct(); return validateandgo();" CssClass="mybutton" TabIndex="121" Text="Submit" CausesValidation="true"/>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Edit Company Pop up!-->
+    
+            
+    <section class='e_detailpop' id='editct' style="display:none"><!--Edit Contact!-->
+	    <div class="create_edit">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#editct").hide();'  /></div>
+            <h3>Create / Edit Contact</h3>
+            <h4>Company Name: <strong><asp:Literal id="pCtCoName" runat="server" ></asp:Literal></strong></h4>
+            <div class="create_form"><!--Create Edit form!-->
+                <asp:Panel ID="pnlCt" runat="server" DefaultButton="btnCtSave">
+       	                    
+       	        <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Salutation:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pCtSalutation" runat="server" Width="20%" TabIndex="101">
+                                <asp:ListItem Value="Select "></asp:ListItem>
+                                <asp:ListItem Value="Dr."></asp:ListItem>
+                                <asp:ListItem Value="Mr."></asp:ListItem>
+                                <asp:ListItem Value="Mrs."></asp:ListItem>
+                                <asp:ListItem Value="Ms."></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Email Status:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="ddlEmailStatus" runat="server"  DataTextField="emailstatus" DataValueField="emailstatusid" tabindex="105" Width="20%">
+                            </asp:DropDownList>
+                        </div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                                     
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>First Name:</label></div>
+                        <div class="inp_f"><input id="pCtFirstName" runat="server" type="text" tabindex="102" required/></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Last Name:</label></div>
+                        <div class="inp_f"><input id="pCtLastName" runat="server" type="text"  tabindex="103" required/></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                              
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Title:</label></div>
+                        <div class="inp_f"><input id="pCtTitle" runat="server" type="text"  tabindex="104"/></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Level:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pCtLevel" runat="server"  DataTextField="lname" DataValueField="ctlrowid" tabindex="105" Width="20%">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                          
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Street:</label></div>
+                        <div class="inp_f"><input id="pCtAddress" runat="server" type="text"  tabindex="106" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>City:</label></div>
+                        <div class="inp_f"><input id="pCtCity" runat="server" type="text"  tabindex="107"/></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>State:</label></div>
+                        <div class="inp_f"><input id="pCtState" runat="server" type="text" tabindex="108"/></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Zipcode:</label></div>
+                        <div class="inp_f"><input id="pCtZip" runat="server" type="text" tabindex="109" style="width:30%"/></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Country:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList id="pCtCountry" runat="server" tabindex="110">
+                                <asp:ListItem Value="Select "></asp:ListItem>
+                                <asp:listitem value="">Select</asp:ListItem>
+                                <asp:listitem value="AF">Afghanistan</asp:ListItem>
+                                <asp:listitem value="AX">Åland Islands</asp:ListItem>
+                                <asp:listitem value="AL">Albania</asp:ListItem>
+                                <asp:listitem value="DZ">Algeria</asp:ListItem>
+                                <asp:listitem value="AS">American Samoa</asp:ListItem>
+                                <asp:listitem value="AD">Andorra</asp:ListItem>
+                                <asp:listitem value="AO">Angola</asp:ListItem>
+                                <asp:listitem value="AI">Anguilla</asp:ListItem>
+                                <asp:listitem value="AQ">Antarctica</asp:ListItem>
+                                <asp:listitem value="AG">Antigua and Barbuda</asp:ListItem>
+                                <asp:listitem value="AR">Argentina</asp:ListItem>
+                                <asp:listitem value="AM">Armenia</asp:ListItem>
+                                <asp:listitem value="AW">Aruba</asp:ListItem>
+                                <asp:listitem value="AU">Australia</asp:ListItem>
+                                <asp:listitem value="AT">Austria</asp:ListItem>
+                                <asp:listitem value="AZ">Azerbaijan</asp:ListItem>
+                                <asp:listitem value="BS">Bahamas</asp:ListItem>
+                                <asp:listitem value="BH">Bahrain</asp:ListItem>
+                                <asp:listitem value="BD">Bangladesh</asp:ListItem>
+                                <asp:listitem value="BB">Barbados</asp:ListItem>
+                                <asp:listitem value="BY">Belarus</asp:ListItem>
+                                <asp:listitem value="BE">Belgium</asp:ListItem>
+                                <asp:listitem value="BZ">Belize</asp:ListItem>
+                                <asp:listitem value="BJ">Benin</asp:ListItem>
+                                <asp:listitem value="BM">Bermuda</asp:ListItem>
+                                <asp:listitem value="BT">Bhutan</asp:ListItem>
+                                <asp:listitem value="BO">Bolivia, Plurinational State of</asp:ListItem>
+                                <asp:listitem value="BQ">Bonaire, Sint Eustatius and Saba</asp:ListItem>
+                                <asp:listitem value="BA">Bosnia and Herzegovina</asp:ListItem>
+                                <asp:listitem value="BW">Botswana</asp:ListItem>
+                                <asp:listitem value="BV">Bouvet Island</asp:ListItem>
+                                <asp:listitem value="BR">Brazil</asp:ListItem>
+                                <asp:listitem value="IO">British Indian Ocean Territory</asp:ListItem>
+                                <asp:listitem value="BN">Brunei Darussalam</asp:ListItem>
+                                <asp:listitem value="BG">Bulgaria</asp:ListItem>
+                                <asp:listitem value="BF">Burkina Faso</asp:ListItem>
+                                <asp:listitem value="BI">Burundi</asp:ListItem>
+                                <asp:listitem value="KH">Cambodia</asp:ListItem>
+                                <asp:listitem value="CM">Cameroon</asp:ListItem>
+                                <asp:listitem value="CA">Canada</asp:ListItem>
+                                <asp:listitem value="CV">Cape Verde</asp:ListItem>
+                                <asp:listitem value="KY">Cayman Islands</asp:ListItem>
+                                <asp:listitem value="CF">Central African Republic</asp:ListItem>
+                                <asp:listitem value="TD">Chad</asp:ListItem>
+                                <asp:listitem value="CL">Chile</asp:ListItem>
+                                <asp:listitem value="CN">China</asp:ListItem>
+                                <asp:listitem value="CX">Christmas Island</asp:ListItem>
+                                <asp:listitem value="CC">Cocos (Keeling) Islands</asp:ListItem>
+                                <asp:listitem value="CO">Colombia</asp:ListItem>
+                                <asp:listitem value="KM">Comoros</asp:ListItem>
+                                <asp:listitem value="CG">Congo</asp:ListItem>
+                                <asp:listitem value="CD">Congo, the Democratic Republic of the</asp:ListItem>
+                                <asp:listitem value="CK">Cook Islands</asp:ListItem>
+                                <asp:listitem value="CR">Costa Rica</asp:ListItem>
+                                <asp:listitem value="CI">Côte d'Ivoire</asp:ListItem>
+                                <asp:listitem value="HR">Croatia</asp:ListItem>
+                                <asp:listitem value="CU">Cuba</asp:ListItem>
+                                <asp:listitem value="CW">Curaçao</asp:ListItem>
+                                <asp:listitem value="CY">Cyprus</asp:ListItem>
+                                <asp:listitem value="CZ">Czech Republic</asp:ListItem>
+                                <asp:listitem value="DK">Denmark</asp:ListItem>
+                                <asp:listitem value="DJ">Djibouti</asp:ListItem>
+                                <asp:listitem value="DM">Dominica</asp:ListItem>
+                                <asp:listitem value="DO">Dominican Republic</asp:ListItem>
+                                <asp:listitem value="EC">Ecuador</asp:ListItem>
+                                <asp:listitem value="EG">Egypt</asp:ListItem>
+                                <asp:listitem value="SV">El Salvador</asp:ListItem>
+                                <asp:listitem value="GQ">Equatorial Guinea</asp:ListItem>
+                                <asp:listitem value="ER">Eritrea</asp:ListItem>
+                                <asp:listitem value="EE">Estonia</asp:ListItem>
+                                <asp:listitem value="ET">Ethiopia</asp:ListItem>
+                                <asp:listitem value="FK">Falkland Islands (Malvinas)</asp:ListItem>
+                                <asp:listitem value="FO">Faroe Islands</asp:ListItem>
+                                <asp:listitem value="FJ">Fiji</asp:ListItem>
+                                <asp:listitem value="FI">Finland</asp:ListItem>
+                                <asp:listitem value="FR">France</asp:ListItem>
+                                <asp:listitem value="GF">French Guiana</asp:ListItem>
+                                <asp:listitem value="PF">French Polynesia</asp:ListItem>
+                                <asp:listitem value="TF">French Southern Territories</asp:ListItem>
+                                <asp:listitem value="GA">Gabon</asp:ListItem>
+                                <asp:listitem value="GM">Gambia</asp:ListItem>
+                                <asp:listitem value="GE">Georgia</asp:ListItem>
+                                <asp:listitem value="DE">Germany</asp:ListItem>
+                                <asp:listitem value="GH">Ghana</asp:ListItem>
+                                <asp:listitem value="GI">Gibraltar</asp:ListItem>
+                                <asp:listitem value="GR">Greece</asp:ListItem>
+                                <asp:listitem value="GL">Greenland</asp:ListItem>
+                                <asp:listitem value="GD">Grenada</asp:ListItem>
+                                <asp:listitem value="GP">Guadeloupe</asp:ListItem>
+                                <asp:listitem value="GU">Guam</asp:ListItem>
+                                <asp:listitem value="GT">Guatemala</asp:ListItem>
+                                <asp:listitem value="GG">Guernsey</asp:ListItem>
+                                <asp:listitem value="GN">Guinea</asp:ListItem>
+                                <asp:listitem value="GW">Guinea-Bissau</asp:ListItem>
+                                <asp:listitem value="GY">Guyana</asp:ListItem>
+                                <asp:listitem value="HT">Haiti</asp:ListItem>
+                                <asp:listitem value="HM">Heard Island and McDonald Islands</asp:ListItem>
+                                <asp:listitem value="VA">Holy See (Vatican City State)</asp:ListItem>
+                                <asp:listitem value="HN">Honduras</asp:ListItem>
+                                <asp:listitem value="HK">Hong Kong</asp:ListItem>
+                                <asp:listitem value="HU">Hungary</asp:ListItem>
+                                <asp:listitem value="IS">Iceland</asp:ListItem>
+                                <asp:listitem value="IN">India</asp:ListItem>
+                                <asp:listitem value="ID">Indonesia</asp:ListItem>
+                                <asp:listitem value="IR">Iran, Islamic Republic of</asp:ListItem>
+                                <asp:listitem value="IQ">Iraq</asp:ListItem>
+                                <asp:listitem value="IE">Ireland</asp:ListItem>
+                                <asp:listitem value="IM">Isle of Man</asp:ListItem>
+                                <asp:listitem value="IL">Israel</asp:ListItem>
+                                <asp:listitem value="IT">Italy</asp:ListItem>
+                                <asp:listitem value="JM">Jamaica</asp:ListItem>
+                                <asp:listitem value="JP">Japan</asp:ListItem>
+                                <asp:listitem value="JE">Jersey</asp:ListItem>
+                                <asp:listitem value="JO">Jordan</asp:ListItem>
+                                <asp:listitem value="KZ">Kazakhstan</asp:ListItem>
+                                <asp:listitem value="KE">Kenya</asp:ListItem>
+                                <asp:listitem value="KI">Kiribati</asp:ListItem>
+                                <asp:listitem value="KP">Korea, Democratic People's Republic of</asp:ListItem>
+                                <asp:listitem value="KR">Korea, Republic of</asp:ListItem>
+                                <asp:listitem value="KW">Kuwait</asp:ListItem>
+                                <asp:listitem value="KG">Kyrgyzstan</asp:ListItem>
+                                <asp:listitem value="LA">Lao People's Democratic Republic</asp:ListItem>
+                                <asp:listitem value="LV">Latvia</asp:ListItem>
+                                <asp:listitem value="LB">Lebanon</asp:ListItem>
+                                <asp:listitem value="LS">Lesotho</asp:ListItem>
+                                <asp:listitem value="LR">Liberia</asp:ListItem>
+                                <asp:listitem value="LY">Libya</asp:ListItem>
+                                <asp:listitem value="LI">Liechtenstein</asp:ListItem>
+                                <asp:listitem value="LT">Lithuania</asp:ListItem>
+                                <asp:listitem value="LU">Luxembourg</asp:ListItem>
+                                <asp:listitem value="MO">Macao</asp:ListItem>
+                                <asp:listitem value="MK">Macedonia, the former Yugoslav Republic of</asp:ListItem>
+                                <asp:listitem value="MG">Madagascar</asp:ListItem>
+                                <asp:listitem value="MW">Malawi</asp:ListItem>
+                                <asp:listitem value="MY">Malaysia</asp:ListItem>
+                                <asp:listitem value="MV">Maldives</asp:ListItem>
+                                <asp:listitem value="ML">Mali</asp:ListItem>
+                                <asp:listitem value="MT">Malta</asp:ListItem>
+                                <asp:listitem value="MH">Marshall Islands</asp:ListItem>
+                                <asp:listitem value="MQ">Martinique</asp:ListItem>
+                                <asp:listitem value="MR">Mauritania</asp:ListItem>
+                                <asp:listitem value="MU">Mauritius</asp:ListItem>
+                                <asp:listitem value="YT">Mayotte</asp:ListItem>
+                                <asp:listitem value="MX">Mexico</asp:ListItem>
+                                <asp:listitem value="FM">Micronesia, Federated States of</asp:ListItem>
+                                <asp:listitem value="MD">Moldova, Republic of</asp:ListItem>
+                                <asp:listitem value="MC">Monaco</asp:ListItem>
+                                <asp:listitem value="MN">Mongolia</asp:ListItem>
+                                <asp:listitem value="ME">Montenegro</asp:ListItem>
+                                <asp:listitem value="MS">Montserrat</asp:ListItem>
+                                <asp:listitem value="MA">Morocco</asp:ListItem>
+                                <asp:listitem value="MZ">Mozambique</asp:ListItem>
+                                <asp:listitem value="MM">Myanmar</asp:ListItem>
+                                <asp:listitem value="NA">Namibia</asp:ListItem>
+                                <asp:listitem value="NR">Nauru</asp:ListItem>
+                                <asp:listitem value="NP">Nepal</asp:ListItem>
+                                <asp:listitem value="NL">Netherlands</asp:ListItem>
+                                <asp:listitem value="NC">New Caledonia</asp:ListItem>
+                                <asp:listitem value="NZ">New Zealand</asp:ListItem>
+                                <asp:listitem value="NI">Nicaragua</asp:ListItem>
+                                <asp:listitem value="NE">Niger</asp:ListItem>
+                                <asp:listitem value="NG">Nigeria</asp:ListItem>
+                                <asp:listitem value="NU">Niue</asp:ListItem>
+                                <asp:listitem value="NF">Norfolk Island</asp:ListItem>
+                                <asp:listitem value="MP">Northern Mariana Islands</asp:ListItem>
+                                <asp:listitem value="NO">Norway</asp:ListItem>
+                                <asp:listitem value="OM">Oman</asp:ListItem>
+                                <asp:listitem value="PK">Pakistan</asp:ListItem>
+                                <asp:listitem value="PW">Palau</asp:ListItem>
+                                <asp:listitem value="PS">Palestinian Territory, Occupied</asp:ListItem>
+                                <asp:listitem value="PA">Panama</asp:ListItem>
+                                <asp:listitem value="PG">Papua New Guinea</asp:ListItem>
+                                <asp:listitem value="PY">Paraguay</asp:ListItem>
+                                <asp:listitem value="PE">Peru</asp:ListItem>
+                                <asp:listitem value="PH">Philippines</asp:ListItem>
+                                <asp:listitem value="PN">Pitcairn</asp:ListItem>
+                                <asp:listitem value="PL">Poland</asp:ListItem>
+                                <asp:listitem value="PT">Portugal</asp:ListItem>
+                                <asp:listitem value="PR">Puerto Rico</asp:ListItem>
+                                <asp:listitem value="QA">Qatar</asp:ListItem>
+                                <asp:listitem value="RE">Réunion</asp:ListItem>
+                                <asp:listitem value="RO">Romania</asp:ListItem>
+                                <asp:listitem value="RU">Russian Federation</asp:ListItem>
+                                <asp:listitem value="RW">Rwanda</asp:ListItem>
+                                <asp:listitem value="BL">Saint Barthélemy</asp:ListItem>
+                                <asp:listitem value="SH">Saint Helena, Ascension and Tristan da Cunha</asp:ListItem>
+                                <asp:listitem value="KN">Saint Kitts and Nevis</asp:ListItem>
+                                <asp:listitem value="LC">Saint Lucia</asp:ListItem>
+                                <asp:listitem value="MF">Saint Martin (French part)</asp:ListItem>
+                                <asp:listitem value="PM">Saint Pierre and Miquelon</asp:ListItem>
+                                <asp:listitem value="VC">Saint Vincent and the Grenadines</asp:ListItem>
+                                <asp:listitem value="WS">Samoa</asp:ListItem>
+                                <asp:listitem value="SM">San Marino</asp:ListItem>
+                                <asp:listitem value="ST">Sao Tome and Principe</asp:ListItem>
+                                <asp:listitem value="SA">Saudi Arabia</asp:ListItem>
+                                <asp:listitem value="SN">Senegal</asp:ListItem>
+                                <asp:listitem value="RS">Serbia</asp:ListItem>
+                                <asp:listitem value="SC">Seychelles</asp:ListItem>
+                                <asp:listitem value="SL">Sierra Leone</asp:ListItem>
+                                <asp:listitem value="SG">Singapore</asp:ListItem>
+                                <asp:listitem value="SX">Sint Maarten (Dutch part)</asp:ListItem>
+                                <asp:listitem value="SK">Slovakia</asp:ListItem>
+                                <asp:listitem value="SI">Slovenia</asp:ListItem>
+                                <asp:listitem value="SB">Solomon Islands</asp:ListItem>
+                                <asp:listitem value="SO">Somalia</asp:ListItem>
+                                <asp:listitem value="ZA">South Africa</asp:ListItem>
+                                <asp:listitem value="GS">South Georgia and the South Sandwich Islands</asp:ListItem>
+                                <asp:listitem value="SS">South Sudan</asp:ListItem>
+                                <asp:listitem value="ES">Spain</asp:ListItem>
+                                <asp:listitem value="LK">Sri Lanka</asp:ListItem>
+                                <asp:listitem value="SD">Sudan</asp:ListItem>
+                                <asp:listitem value="SR">Suriname</asp:ListItem>
+                                <asp:listitem value="SJ">Svalbard and Jan Mayen</asp:ListItem>
+                                <asp:listitem value="SZ">Swaziland</asp:ListItem>
+                                <asp:listitem value="SE">Sweden</asp:ListItem>
+                                <asp:listitem value="CH">Switzerland</asp:ListItem>
+                                <asp:listitem value="SY">Syrian Arab Republic</asp:ListItem>
+                                <asp:listitem value="TW">Taiwan, Province of China</asp:ListItem>
+                                <asp:listitem value="TJ">Tajikistan</asp:ListItem>
+                                <asp:listitem value="TZ">Tanzania, United Republic of</asp:ListItem>
+                                <asp:listitem value="TH">Thailand</asp:ListItem>
+                                <asp:listitem value="TL">Timor-Leste</asp:ListItem>
+                                <asp:listitem value="TG">Togo</asp:ListItem>
+                                <asp:listitem value="TK">Tokelau</asp:ListItem>
+                                <asp:listitem value="TO">Tonga</asp:ListItem>
+                                <asp:listitem value="TT">Trinidad and Tobago</asp:ListItem>
+                                <asp:listitem value="TN">Tunisia</asp:ListItem>
+                                <asp:listitem value="TR">Turkey</asp:ListItem>
+                                <asp:listitem value="TM">Turkmenistan</asp:ListItem>
+                                <asp:listitem value="TC">Turks and Caicos Islands</asp:ListItem>
+                                <asp:listitem value="TV">Tuvalu</asp:ListItem>
+                                <asp:listitem value="UG">Uganda</asp:ListItem>
+                                <asp:listitem value="UA">Ukraine</asp:ListItem>
+                                <asp:listitem value="AE">United Arab Emirates</asp:ListItem>
+                                <asp:listitem value="GB">United Kingdom</asp:ListItem>
+                                <asp:listitem value="US">United States</asp:ListItem>
+                                <asp:listitem value="UM">United States Minor Outlying Islands</asp:ListItem>
+                                <asp:listitem value="UY">Uruguay</asp:ListItem>
+                                <asp:listitem value="UZ">Uzbekistan</asp:ListItem>
+                                <asp:listitem value="VU">Vanuatu</asp:ListItem>
+                                <asp:listitem value="VE">Venezuela, Bolivarian Republic of</asp:ListItem>
+                                <asp:listitem value="VN">Viet Nam</asp:ListItem>
+                                <asp:listitem value="VG">Virgin Islands, British</asp:ListItem>
+                                <asp:listitem value="VI">Virgin Islands, U.S.</asp:ListItem>
+                                <asp:listitem value="WF">Wallis and Futuna</asp:ListItem>
+                                <asp:listitem value="EH">Western Sahara</asp:ListItem>
+                                <asp:listitem value="YE">Yemen</asp:ListItem>
+                                <asp:listitem value="ZM">Zambia</asp:ListItem>
+                                <asp:listitem value="ZW">Zimbabwe</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Phone:</label></div>
+                        <div class="inp_f">
+                            <input id="pCtPhone" type="tel" runat="server" tabindex="111"  style="width:80%" placeholder="(XXX) XXX-XXXX"/>
+                            Extn: <input id="pCtPhoneExtn" type="text" runat="server" tabindex="111" maxlength="6"  style="width:20%"/>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Fax:</label></div>
+                        <div class="inp_f"><input id="pCtFax" runat="server" type="text" tabindex="112" style="width:80%" placeholder="(XXX) XXX-XXXX"/></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Cell Phone:</label></div>
+                        <div class="inp_f"><input id="pCtCell" runat="server" type="text" tabindex="113" style="width:80%" placeholder="(XXX) XXX-XXXX"/></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>PBX:</label></div>
+                        <div class="inp_f"><input id="pCtPBX" runat="server" type="text" tabindex="114"/></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Email:</label></div>
+                        <div class="inp_f">
+							<input id="pCtEmail" runat="server" type="text" tabindex="115" style="width:75%" />
+                            <asp:RegularExpressionValidator ID="regexpCtEmail" runat="server" ControlToValidate="pCtEmail" ValidationGroup="dupemail"
+                                Display="Dynamic" ErrorMessage="*" ValidationExpression="^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$"></asp:RegularExpressionValidator>
+                          <asp:CustomValidator ID="cvpCtEmail" runat="server" ControlToValidate="pCtEmail" ValidationGroup="dupemail"
+                            ErrorMessage="Email exists" ClientValidationFunction="isDupEmail" />
+						</div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>LinkedIn:</label></div>
+                        <div class="inp_f"><input id="pCtLinkedIn" runat="server" type="text" tabindex="116"/></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Area:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pCtArea" runat="server" DataTextField="aname" DataValueField="ctarowid" tabindex="117" Width="50%">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Status:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pCtStatus" runat="server" DataTextField="stname" DataValueField="ctstrowid" tabindex="118" Width="50%">
+                            </asp:DropDownList>
+                        </div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Person Id:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pCtPersona" runat="server" DataTextField="PersonaDescription" DataValueField="PersonaId" tabindex="119" Width="50%">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Created By/On</label></div>
+                        <div class="inp_f"><strong><asp:Label id="pCtCrtdByOn" runat="server" ></asp:Label></strong></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Updated By/On</label></div>
+                        <div class="inp_f"><strong><asp:Label id="pCtUptdByOn" runat="server" ></asp:Label></strong></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>Source:</label></div>
+                    <div class="ct_rt"><textarea rows="1" id="pCtDescription" runat="server" tabindex="120"></textarea></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                </asp:Panel>                
+                <div class="create_button">
+                    <a href="#" onclick='$("#editct").hide();' class="cancel" tabindex="121">Cancel</a>&nbsp;&nbsp; 
+                    <asp:Button ID="btnCtSave" runat="server" ValidationGroup="dupemail" OnClick="btnCtRefresh_ServerClick" OnClientClick="addremovevalacct();validateandgoct();" CssClass="mybutton" TabIndex="121" Text="Submit" CausesValidation="true"/>
+                </div>
+
+            </div><!--Create Edit form!-->
+        </div>
+
+        <script type="text/javascript" src="telephone/js/intlTelInput.js"></script>
+        <script type="text/javascript" >
+            $("#ctl00_ctl00_ContentPlaceHolder1_pPhone").intlTelInput({
+                utilsScript: "telephone/js/utils.js"
+            });
+            $("#ctl00_ctl00_ContentPlaceHolder1_pFax").intlTelInput({
+                utilsScript: "telephone/js/utils.js"
+            });
+            $("#ctl00_ctl00_ContentPlaceHolder1_pCtPhone").intlTelInput({
+                utilsScript: "telephone/js/utils.js"
+            });
+            $("#ctl00_ctl00_ContentPlaceHolder1_pCtFax").intlTelInput({
+                utilsScript: "telephone/js/utils.js"
+            });
+            $("#ctl00_ctl00_ContentPlaceHolder1_pCtCell").intlTelInput({
+                utilsScript: "telephone/js/utils.js"
+            });
+          </script>
+
+	</section><!--Edit Contact Pop up!-->
+                                    
+    <section class='e_detailpop' id='addAcctAttr' style="display:none"><!--Edit Contact!-->
+	    <div class="create_edit" style="cursor:pointer">
+    	    <div class="close_btn1" onclick='$("#addAcctAttr").hide();'><img src="images/close.png" /></div>
+            <h3 class="template_heading">Add Account Attributes</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Attribute Type:</label></div>
+                        <div class="inp_f" ><span ID="litAttrType" runat="server"></span></div>
+                        <asp:HiddenField ID="hdnValue" runat="server" />
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Attribute</label></div>
+                        <div class="inp_f">
+                            <asp:UpdatePanel ID="UpdatePanel3" runat="server" ChildrenAsTriggers="true" UpdateMode="Always">
+                                <ContentTemplate>
+                                    <asp:TextBox ID="txtDescription" runat="server" Width="100%" MaxLength="80" 
+                                        ValidationGroup="CEAttr" Text="Start typing and then Select from list or Type a New one"
+                                        onblur="if(this.value == '') this.value='Start typing and then Select from list or Type a New one'"
+                                        onfocus="if(this.value == 'Start typing and then Select from list or Type a New one') this.value=''"></asp:TextBox>
+                                    <div id="listPlacementReply"></div>
+                                    <cc1:AutoCompleteExtender ID="ACDescription" ServiceMethod="FetchMasters" OnClientItemSelected="ItemSelected"
+                                        CompletionListElementID="listPlacementReply" MinimumPrefixLength="1" TargetControlID="txtDescription"
+                                        CompletionSetCount="20" ServicePath="WebMethods.aspx" runat="server" CompletionListCssClass="AutoCompleteExtenderList"
+                                        DelimiterCharacters=";" ShowOnlyCurrentWordInCompletionListItem="true" UseContextKey="true">
+                                    </cc1:AutoCompleteExtender>
+                                    <asp:TextBox ID="txtDesc1" runat="server" Width="100%" MaxLength="80" runat="server"
+                                        ValidationGroup="CEAttr1" Text=""></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="rfvtxtDesc1" runat="server" ControlToValidate="txtDesc1"
+                                        InitialValue="" ValidationGroup="CEAttr1" Display="Dynamic"></asp:RequiredFieldValidator>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>                            
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>&nbsp;</label></div>
+                        <div class="inp_f"><input onclick="return SaveAccountAttr();" type="submit" value="Submit" class="add" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+           </div><!--Create Edit form!-->
+        </div>
+    </section><!--Edit Contact Pop up!-->
+            
+    <section class='e_detailpop' id='addCallLog' style="display:none"><!--Email Detail Pop up!-->
+	    <div class="create_edit create_popsm">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#addCallLog").hide();'  /></div>
+            <h3>Update Call log Details</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Type:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pType" runat="server" DataTextField="activitytypeshort"
+                                DataValueField="activitytypeid" AppendDataBoundItems="true" required>
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>Call Log:</label></div>
+                    <div class="ct_rt"><textarea id="txtCallLog"></textarea></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_button">
+                    <a href="#" onclick='$("#addCallLog").hide();'  class="cancel">Cancel</a>&nbsp;&nbsp; 
+                    <a href="#" class="ok" onclick="return SaveCall('L');">Submit</a>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Email Detail Pop up!-->
+            
+    <section class='e_detailpop' id='addNotes' style="display:none"><!--Email Detail Pop up!-->
+	    <div class="create_edit create_popsm">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#addNotes").hide();' /></div>
+            <h3>Add Notes</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>Notes:</label></div>
+                    <div class="ct_rt"><textarea id="txtpNote"></textarea></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_button">
+                    <a href="#" onclick='$("#addNotes").hide();' class="cancel">Cancel</a>&nbsp;&nbsp; 
+                    <a href="#" class="ok"  onclick="return SaveNote();">Submit</a>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Email Detail Pop up!-->                    
+
+    <section class='e_detailpop' id='SendEmail' style="display:none"><!--Email Detail Pop up!-->
+	    <div class="create_edit create_popsm">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#SendEmail").hide();' /></div>
+            <h3>Send Quick Email</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>To:</label></div>
+                    <div class="ct_rt"><asp:TextBox ID="pQESendto" runat="server" style="width: 75%;"></asp:TextBox></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>Subject:</label></div>
+                    <div class="ct_rt"><asp:TextBox ID="pQESubject" runat="server" style="width: 75%;"></asp:TextBox></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>Notes:</label></div>
+                    <div class="ct_rt">
+                            <textarea name="ckeditor1" id="ckeditor1"></textarea>
+                            <input id="pQEEmailBody" type="hidden" runat="server" />
+
+<%--                        <CKEditor:CKEditorControl EnterMode="DIV" ResizeEnabled="false" RemovePlugins="elementspath"
+                            ToolbarCanCollapse="false" ID="pQEEmailBody" runat="server" DisableObjectResizing="true" Toolbar="Basic" ToolbarBasic="|Bold|Italic|Underline|Strike|-|NumberedList|BulletedList|Outdent|Indent|-|JustifyLeft|JustifyCenter|JustifyRight|JustifyBlock|-|Undo|Redo|Cut|Copy|Paste|PasteText|PasteFromWord|SpellChecker|Scayt|">
+                        </CKEditor:CKEditorControl>--%>
+                    </div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_button">
+                    <a href="#" onclick='$("#SendEmail").hide();' class="cancel">Cancel</a>&nbsp;&nbsp; 
+                    <asp:LinkButton ID="lnkQESaveEmail" OnClientClick="return GetCKEditorData1();" CssClass="ok" runat="server" >Send</asp:LinkButton>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Email Detail Pop up!-->                    
+
+    <section class='e_detailpop' id='changeOwner' style="display:none"><!--Email Detail Pop up!-->
+	    <div class="create_edit create_popsm">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#changeOwner").hide();' /></div>
+            <h3>Change Owner</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left">
+       		            <div class="field_name"><label>Owner:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="ddlOwner" runat="server" DataTextField="username" DataValueField="userid">
+                                <asp:ListItem Value="Select "></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_button">
+                    <a href="#" onclick='$("#changeOwner").hide();' class="cancel">Cancel</a>&nbsp;&nbsp; 
+                    <a href="#" class="ok"  onclick="return SaveOwner();">Submit</a>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Email Detail Pop up!-->                    
+
+    <section class='e_detailpop' id='AllowAlert' style="display:none"><!--Email Detail Pop up!-->
+	    <div class="create_edit create_popsm">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#AllowAlert").hide();' /></div>
+            <h3>Alert for Duplicate Email</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label style="width:400px">The email you are trying to Save already exists in the system, Please confirm  this still needs to be saved</label></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_button">
+                    <a href="#" onclick='$("#AllowAlert").hide();' class="cancel">No</a>&nbsp;&nbsp; 
+                    <asp:Button ID="Button2" runat="server" OnClick="btnCtRefresh_ServerClick" OnClientClick="addremovevalct2();return validateandgoct2();" CssClass="mybutton" TabIndex="121" Text="Yes"/>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Email Detail Pop up!-->                    
+
+   <section class='e_detailpop' id='AllowDupAcct' style="display:none"><!--Email Detail Pop up!-->
+	    <div class="create_edit create_popsm">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#AllowDupAcct").hide(); $("#editco").show();' /></div>
+            <h3>Alert for Duplicate Account</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left" style="width:100%" ><label>The account you are trying to Save already exists in the system. Please confirm  this still needs to be saved.</label></div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_button">
+                    <a href="#" onclick='$("#AllowDupAcct").hide(); $("#editco").show();' class="cancel">No</a>&nbsp;&nbsp; 
+                    <%--<a href="#" onclick='' class="cancel">Yes</a>&nbsp;&nbsp; --%>
+                    <asp:Button ID="Button1" runat="server" OnClick="btnAcctRefresh_ServerClick" OnClientClick="return SaveAccount(1);" CssClass="mybutton" TabIndex="121" Text="Yes" CausesValidation="true"/>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+    </section><!--Email Detail Pop up!-->                    
+	
+    <section class='e_detailpop' id='newemail' style="display:none;height:100%"><!--Email Detail Pop up!-->
+	    <div class="det_pop">
+    	    <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#newemail").hide();' /></div>
+            <h3 class="template_heading">Send Email ?</h3>
+            <div class="create_form create_fm_new"><!--Create Edit form!-->
+                                    
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>From:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList runat="server" ID="pSelFrom" DataTextField="email" 
+                                    DataValueField="userID" ></asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Reply To:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList runat="server" ID="pSelReplyTo" DataTextField="email" 
+                                    DataValueField="userID" ></asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left" style="width:100%"><!--left section!-->
+            	        <div class="field_name" style="width:12%"><label>To:</label></div>
+                        <div class="inp_f">
+                            <asp:TextBox ID="pSendto" Font-Size="Small" MaxLength="100" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left" style="width:100%"><!--left section!-->
+            	        <div class="field_name"  style="width:12%"><label>Cc:</label></div>
+                        <div class="inp_f">
+                            <asp:TextBox ID="pSendCC" Font-Size="Small" MaxLength="100" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>Template:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList runat="server" ID="pTemplateType" DataTextField="TemplateType" 
+                                DataValueField="TemplateTypeId" AutoPostBack="true"></asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label>Select:</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList runat="server" ID="ddlSubject" DataTextField="emailtemplatename" DataValueField="EmailTemplateID"
+                                onchange="return settemplate(this, 1);">
+                            </asp:DropDownList>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left" style="width:100%"><!--left section!-->
+            	        <div class="field_name" style="width:12%"><label>Subject:</label></div>
+                        <div class="inp_f">
+                            <asp:TextBox ID="pSubject" Font-Size="Small" MaxLength="300" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_row"><!--row !-->
+                    <div class="create_left"><!--create right !-->
+            	        <div class="field_name"><label>Attachments:</label></div>
+                        <div class="inp_f"><asp:FileUpload ID="FileAttach1" runat="server"  /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="create_left create_rt"><!--create right !-->
+            	        <div class="field_name"><label></label></div>
+                        <div class="inp_f"><asp:FileUpload ID="FileAttach2" runat="server"  /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_row"><!--row !-->
+                    <div class="create_left"><!--create right !-->
+            	        <div class="field_name"><label></label></div>
+                        <div class="inp_f"><asp:FileUpload ID="FileAttach3" runat="server"  /></div>
+                        <div class="clr"></div>
+                    </div><!--create right !-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+
+                <div class="create_row"><!--row !-->
+       		        <div class="ct_left"><label>&nbsp;</label></div>
+                    <div class="ct_rt">
+                            <textarea name="ckeditor2" id="ckeditor2"></textarea>
+                            <input id="pEmailBody" type="hidden" runat="server" />
+                        <%--<textarea rows="10" style="height:5%" id="" runat="server"></textarea>--%>
+<%--                        <CKEditor:CKEditorControl EnterMode="DIV" ResizeEnabled="false" RemovePlugins="elementspath"
+                            ToolbarCanCollapse="false" ID="pEmailBody" runat="server" DisableObjectResizing="true" Toolbar="Basic" 
+                            ToolbarBasic="|Bold|Italic|Underline|Strike|-|NumberedList|BulletedList|Outdent|Indent|-|JustifyLeft|JustifyCenter|JustifyRight|JustifyBlock|-|Undo|Redo|Cut|Copy|Paste|PasteText|PasteFromWord|SpellChecker|Scayt|">
+                        </CKEditor:CKEditorControl>--%>
+                    </div>
+                    <div class="clr"></div>
+                </div><!--row !-->
+                  
+                <div class="create_button">
+                    <a href="#" onclick='$("#newemail").hide();' class="cancel">Cancel</a>&nbsp;&nbsp; 
+                    <asp:LinkButton ID="lnkSaveEmail"  OnClientClick="GetCKEditorData2();" CssClass="ok" runat="server" >Submit</asp:LinkButton>
+                </div>
+            </div><!--Create Edit form!-->
+        </div>
+
+    </section><!--Email Detail Pop up!-->
+
+    <section class='e_detailpop' id='addInvent' style="display:none"><!--Edit Contact!-->
+	    <div class="create_edit" style="cursor:pointer;width: 35%;">
+    	    <div class="close_btn1" onclick='$("#addInvent").hide();'><img src="images/close.png" /></div>
+            <h3 class="template_heading">Add Inventory</h3>
+            <div class="create_form"><!--Create Edit form!-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left" style="width:100%"><!--left section!-->
+            	        <div class="field_name"><label>Inventory Type</label></div>
+                        <div class="inp_f">
+                            <asp:DropDownList ID="pddlInv" runat="server"   DataTextField="InventoryShort" DataValueField="InventoryID" >
+                            </asp:DropDownList>   
+                        </div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+                <div class="create_row"><!--row !-->
+       		        <div class="create_left"><!--left section!-->
+            	        <div class="field_name"><label>&nbsp;</label></div>
+                        <div class="inp_f"><input onclick="return SaveInvent();" type="submit" value="Submit" class="add" /></div>
+                        <div class="clr"></div>
+                    </div><!--left section!-->
+                    <div class="clr"></div>
+                </div><!--row !-->
+           </div><!--Create Edit form!-->
+        </div>
+    </section><!--Edit Contact Pop up!-->
+            
+
+<script>
+    //initSample();
+
+</script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('#ckeditor').ckeditor();
+            CKEDITOR.replace('ckeditor1', {
+                HtmlEncodeOutput: true,
+				allowedContent: true,
+                font_defaultLabel: '',
+                fontSize_defaultLabel:'',
+                disableNativeSpellChecker: false,
+                scayt_autoStartup: true,
+                enterMode: 2
+            });
+            $('#ckeditor1').val($("#<%= pQEEmailBody.ClientID %>").val());
+            CKEDITOR.replace('ckeditor2', {
+                HtmlEncodeOutput: true,
+				allowedContent: true,
+                font_defaultLabel: '',
+                fontSize_defaultLabel:'',
+                disableNativeSpellChecker: false,
+                scayt_autoStartup: true,
+                enterMode: 2
+            });
+            $('#ckeditor2').val($("#<%= pEmailBody.ClientID %>").val());
+        });
+    </script>
+
+</asp:Content>
+
+<asp:Content ContentPlaceHolderID="ContentPopMain" runat="server">
+    <asp:ContentPlaceHolder ID="ContentPop" Runat="Server"></asp:ContentPlaceHolder>
+</asp:Content>
+
+<%--<asp:Content ID="ContentPlaceHolder3" ContentPlaceHolderID="ContentPop" Runat="Server"></asp:Content>--%>
+
+
+                    <%--<div class="create_form" runat="server" id="divOwner" style="width:150%"><!--Create Edit form!-->
+                        <div class="create_row"><!--row !-->
+       		                <div class="create_left">
+                                <div class="inp_f">
+                                    <asp:DropDownList ID="DropDownList1" runat="server" DataTextField="username" 
+                                        DataValueField="userid" AutoPostBack="true">
+                                        <asp:ListItem Value="Select "></asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="clr"></div>
+                        </div><!--row !-->
+                    </div>--%>

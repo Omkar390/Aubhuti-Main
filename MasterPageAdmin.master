@@ -1,0 +1,356 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPageAdmin.master.vb" Inherits="MasterPageAdmin" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>SalesShark</title>
+
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,500,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900' rel='stylesheet' type='text/css'>
+    <link href="css/tab/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.sidr.min.js"></script>
+    <script type="text/javascript" src="js/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/datatables/dataTables.bootstrap.js"></script>
+    <link href="css/jquery.sidr.dark.css" rel="stylesheet" type="text/css">
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="css/responsive-tables.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="js/responsive-tables.js"></script>
+
+    <!-- Include Required Prerequisites
+    <script type="text/javascript" src="js/datepicker/jquery.min.js"></script> 
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" /> -->
+    <script type="text/javascript" src="js/datepicker/moment.min.js"></script>
+
+ 
+    <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+
+    <!--date picker elements start here!-->
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+    <script type="text/javascript" src="js/jquery-ui.js"></script>
+    <!--date picker elements start here!-->
+
+
+    <script type="text/javascript">
+        function showcontact() {
+            $("#showcontact").show();
+        }
+
+        </script>
+     
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+   
+    <form id="form1" runat="server" enctype="multipart/form-data" method="post">
+        <cc1:ToolkitScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true"></cc1:ToolkitScriptManager>
+        <header><!--header section!-->
+	        <div class="hd_con">
+    	        <div class="logo_sec"><!--logo section!-->
+        	        <div class="side_menu"><!--side bar menu!-->
+            	        <a id="left-menu" href="#left-menu"><img src="images/menu-bar.png" /></a>
+            	        <div id="sidr-left" class="sidr left">
+                	        <div class="profile_sec">
+        				        <div class="p_photo"><img src="images/p_photo.png" /></div>
+            			        <h3>Welcome <span><asp:Literal runat="server" ID="litFName"></asp:Literal></span></h3>
+        			        </div>
+                	        <ul class="lt_menu"><!-- side menu section!-->
+                	
+                                <li class="menu">
+                                    <a href="#"><img src="images/crm_r.png" /> <span>Crm Reports</span></a>
+                                    <ul class="sub_menu">
+                                        <li><a href="#">MicroRegion</a></li>
+                                        <li><a href="#">Search</a></li>
+                                        <li><a href="#">Dashboard</a></li>
+                                        <li><a href="#">Open Activites</a></li>
+                                        <li><a href="#">Industry</a></li>
+                            	        <li><a href="#">Attribute Summery</a></li>
+                                        <li><a href="#">User Activity</a></li>
+                                        <li><a href="#">Login History</a></li>
+                                        <li><a href="#">Pending Mailers</a></li>
+                                        <li><a href="#">Video Logins</a></li>
+                                        <li><a href="#">User Summery</a></li>
+                                        <li><a href="#">Account/Contact Merge</a></li>
+                                        <li><a href="#">Acct W No Gt Act</a></li>
+                                        <li><a href="#">ERP Used</a></li>
+                                        <li><a href="#">Account Map</a></li>
+                                    </ul>   
+                                 </li>
+                                <li class="menu"><a href="#"><img src="images/admin.png" /> <span>Admin</span></a>
+                                    <ul class="sub_menu">
+                                        <li><a href="#">Meeting TimeZone</a></li>
+                                        <li><a href="#">Meeting Interface</a></li>
+                                        <li><a href="#">Meeting Type</a></li>
+                                        <li><a href="#">Meeting Source</a></li>
+                                        <li><a href="#">Pain</a></li>
+                                        <li><a href="#">Inventory-Pain Link</a></li>
+                                        <li><a href="#">Communication Templates</a></li>
+                                        <li><a href="#">Email Config</a></li>
+                                        <li><a href="#">Communication Schedule</a></li>
+                                        <li><a href="#">Activity Type</a></li>
+                                        <li><a href="#">Account Status Type</a></li>
+                                        <li><a href="#">Survey Type</a></li>
+                                        <li><a href="#">Opportunity Stage</a></li>
+                                        <li><a href="#">Search IpAdd</a></li>
+                                        <li><a href="#">Print Form</a></li>
+                                        <li><a href="#">Marketing Process</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <li class="menu"><a href="#"><img src="images/appointment.png" /> <span>Appointment</span></a>
+                                    <ul class="sub_menu">
+                                        <li><a href="#">Meetings</a></li>
+                                        <li><a href="#">AE Summery</a></li>
+                                        <li><a href="#">ISR Summery</a></li>
+                                        <li><a href="#">Setup</a></li>
+                                         <li><a href="#">Meeting Map</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/survey.png" /> <span>Survey</span></a>
+                        	         <ul class="sub_menu">
+                                        <li><a href="#">Survey Master</a></li>
+                                        <li><a href="#">Question Master</a></li>
+                                        <li><a href="#">Survey</a></li>
+                                        <li><a href="#">Send Survey</a></li>
+                                        <li><a href="#">Answers</a></li>
+                                        <li><a href="#">Survey Results</a></li>
+                                        <li><a href="#">Survey Not Sent</a></li>
+                                        <li><a href="#">Survey Incomplete</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/skype.png" /> <span>Skype Calls Reports</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">Call Data By Group</a></li>
+                                        <li><a href="#">Call Data By Member</a></li>
+                                        <li><a href="#">Yesterday Calls Reports</a></li>
+                                        <li><a href="#">Send Survey</a></li>
+                                        <li><a href="#">Last Week Calls Reports</a></li>
+                                        <li><a href="#">Summery By State</a></li>
+                                        <li><a href="#">Summery By State Person</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/yqm.png" /> <span>YQM Reports</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">Time Zone</a></li>
+                                        <li><a href="#">Sales Person</a></li>
+                                        <li><a href="#">Daily</a></li>
+                                        <li><a href="#">Minute</a></li>
+                                        <li><a href="#">State</a></li>
+                                        <li><a href="#">Summery By Member</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/s_admin.png" /> <span>Skype Admin</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">Area Info</a></li>
+                                      
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/email_blast.png" /> <span>Email Blast</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">Email Blast Profile</a></li>
+                                        <li><a href="#">Email Blast Templates</a></li>
+                                        <li><a href="#">Send Email Blast</a></li>
+                                      
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/crm_c.png" /> <span>CRM Company</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">View</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/crm_l.png" /> <span>CRM List</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">View</a></li>
+                                        <li><a href="#">Manage</a></li>
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Archived lists</a></li>
+                                        <li><a href="#">Login History</a></li>
+                                        <li><a href="#">Phone Burner Export</a></li>
+                                        
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/crm_o.png" /> <span>CRM Opps</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">Summery</a></li>
+                                        <li><a href="#">Aging</a></li>
+                                        <li><a href="#">Closed</a></li>
+                                       
+                                    </ul>
+                                </li>
+                                <li><a href="#"><img src="images/email_blast2.png" /> <span>Email Blast V2</span></a>
+                        	        <ul class="sub_menu">
+                                        <li><a href="#">Email Template Source</a></li>
+                                        <li><a href="#">Email Lists</a></li>
+                                        <li><a href="#">Email Templates</a></li>
+                                        <li><a href="#">Email Blast Jobs</a></li>
+                                        <li><a href="#">Blast Report</a></li>
+                                        <li><a href="#">Blast Survey Result</a></li>
+                                        <li><a href="#">CRM Lists</a></li>
+                                        <li><a href="#">Template Types</a></li>
+                                        <li><a href="#">Opt-out Request</a></li>
+                                    </ul>
+                                </li>
+                                <li class="menu"><a href="#"><img src="images/rfp.png" /> <span>RFP</span></a>
+                                    <ul class="sub_menu">
+                                        <li><a href="#">RFP List</a></li>
+                                        <li><a href="#">Search</a></li>
+                                        <li><a href="#">Doc Config</a></li>
+                                        
+                                    </ul>
+                                </li>
+        			        </ul><!-- side menu section!-->
+                        </div>
+                    </div><!--side bar menu!-->
+                    <div class="logo">
+                        <a href="AdminMenu.aspx">
+                            <img src="LandingPage/img/logo.png" style="height:40px" />
+                        </a>
+                    </div>
+                    <div class="clr"></div>
+                </div><!--logo section!-->
+                <div class="hd_rt"><!--header right section!-->
+        	        <div class="date"><asp:Literal runat="server" ID="litDateTime"></asp:Literal></div>
+                    <div class="help">
+						<a href="#" class='t_button notification'><i class="fa fa-bell-o"></i></a> 
+						<a class='t_button' href="#" onclick='showcontact();' ><i class="fa fa-question"></i></a> 
+						<a class='t_button' href="#"><i class="fa fa-cog"></i></a> 
+						<a class='t_button' href="login.aspx"><i class="fa fa-power-off"></i></a>
+            	        <div class="attack_pop1" style="display:none;"><!--attack popup !-->
+<%--                	        <h3>Karl - Wednesdays dial </h3>
+                            <ul>
+                    	        <li><a href="#">Mark Julien<span>Kronos Worldwide, Inc.</span></a></li>
+                                <li><a href="#">Stephen Wilson<span>CF Industries Holdings, Inc.</span></a></li>
+                                <li><a href="#">Craig Seitz <span>Crown Equipment Corporation</span></a></li>
+                                <li><a href="#">Jacques Croisetiere <span>Rohm abd Haas Company</span></a></li>
+                            </ul>--%>
+                          
+                          <div class="see_all"><a href="contact_box_list.html">See All</a></div>  
+                        </div><!--attack popup !-->
+                    </div>
+                </div><!--header right section!-->
+                <div class="clr"></div>
+            </div>
+        </header><!--header section!-->
+                    <input type="submit" id="btnSubmit" runat="server" style="display:none" />
+        <div>
+                    <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+            
+                    </asp:ContentPlaceHolder>
+        </div>
+
+		<asp:ContentPlaceHolder id="ContentPopMain" runat="server">
+        </asp:ContentPlaceHolder>
+
+    <asp:UpdatePanel runat="server" ID="updtest">
+        <ContentTemplate>
+            <section class='e_detailpop' id='showcontact' style="display:none;height:100%"><!--Email Detail Pop up!-->
+	            <div class="create_edit">
+    	            <div class="close_btn1"><img src="images/close.png" style="cursor:pointer" onclick='$("#showcontact").hide();' /></div>
+                    <h3>Please Enter your Questions or Comments</h3>
+                        
+                    <div class="create_form"><!--Create Edit form!-->
+                                
+                        <div class="create_row"><!--row !-->
+       		                <div class="create_left" style="width:80%"><!--left section!-->
+            	                <div class="field_name"><label>Your Email Address: </label></div>
+                                <div class="inp_f">
+                                    <asp:TextBox ID="pEmail" Font-Size="Small" runat="server" Enabled="false"></asp:TextBox>
+                                </div>
+                                <div class="clr"></div>
+                            </div><!--left section!-->
+                            <div class="clr"></div>
+                        </div><!--row !-->
+                          
+                        <div class="create_row"><!--row !-->
+       		                <div class="create_left" style="width:80%"><!--left section!-->
+            	                <div class="field_name"><label>Comments / Questions: </label></div>
+                                <div class="inp_f">
+                                    <textarea rows="10" cols="73" id="pComments" runat="server" validationgroup="SendIssue"></textarea>
+                                </div>
+                                <div class="clr"></div>
+                            </div>
+                            <div class="clr"></div>
+                        </div><!--row !-->
+
+                        <div class="create_row"><!--row !-->
+       		                <div class="create_left" style="width:80%"><!--left section!-->
+            	                <div class="field_name"><label>Additional Information that will be sent with the Email: </label></div>
+                                <div class="inp_f">
+                                    <asp:TextBox ID="pAddInf" Font-Size="Small" runat="server" Enabled="false"></asp:TextBox>
+                                </div>
+                                <div class="clr"></div>
+                            </div><!--left section!-->
+                            <div class="clr"></div>
+                        </div><!--row !-->
+
+                        <div class="create_button">
+                            <a href="#" onclick='$("#showcontact").hide();' class="cancel">Cancel</a>&nbsp;&nbsp; 
+                            <%--<a href="#" class="ok" onclick="return SaveComments();">Submit</a>--%>
+                            <asp:LinkButton ID="lnkSave" runat="server" CssClass="ok" validationgroup="SendIssue">Submit</asp:LinkButton>
+                        </div>
+                   </div><!--Create Edit form!-->
+                </div>
+            </section><!--Email Detail Pop up!-->
+
+        </ContentTemplate>
+    </asp:UpdatePanel>
+
+        <footer class="log_footer"><!--footer section!-->
+	        © 2015-2016 all rights reserved
+        </footer><!--footer section!-->
+			<script type="text/javascript" src="js/tab/bootstrap.min.js"></script>
+			<script type="text/javascript" src="js/tab/wizard.js"></script>
+
+            <script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.flash.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+            <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('.menu').on('click', function () {
+                        //$('.sub_menu').toggle();
+                        $(this).children('ul.sub_menu').toggle();
+                    });
+
+                    $('.datepicker').each(function () {
+                        //alert(this.id);
+                        $(this).datepicker();
+                    });
+
+                    $(".attack_pop").fadeOut();
+
+                    $(".notification,.attack_pop").mouseover(function () {
+                        $(".attack_pop").fadeIn();
+                    });
+                    $(".attack_pop, .hd_rt .date").mouseleave(function (e) {
+                        $(".attack_pop").fadeOut();
+                    });
+
+                });
+		</script>
+
+    </form>
+
+</body>
+</html>

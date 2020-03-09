@@ -1,0 +1,367 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPageOptout.master.vb" Inherits="MasterPageOptout" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>::SalesShark::</title>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,500,700,800' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900' rel='stylesheet' type='text/css'>
+    <link href="css/custom.css" rel="stylesheet" type="text/css">
+
+    <link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <!-- Include Required Prerequisites -->
+    <script type="text/javascript" src="js/moment.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/bootstrap.css" />
+ 
+
+    <script type="text/javascript" src="js/datatables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="js/datatables/dataTables.bootstrap.js"></script>
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
+
+        <!-- Include Date Range Picker -->
+    <script type="text/javascript" src="js/daterangepicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="js/daterangepicker.css" />
+
+    <script type="text/javascript" src="js/jquery.sidr.min.js"></script>
+    <link href="css/jquery.sidr.dark.css" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript">
+        function showcontact() {
+            $("#showcontact").show();
+        }
+
+        </script>
+     
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+</head>
+<body>
+   
+    <form id="form1" runat="server" enctype="multipart/form-data" method="post">
+        <cc1:ToolkitScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true"></cc1:ToolkitScriptManager>
+        <header><!--header section!-->
+	        <div class="hd_con">
+    	        <div class="logo_sec"><!--logo section!-->
+        	        <div class="side_menu"><!--side bar menu!-->
+            	        <div id="sidr-left" class="sidr left">
+                	        <div class="profile_sec">
+        				        <div class="p_photo"><img src="images/p_photo.png" /></div>
+            			        <h3>Welcome <span><asp:Literal runat="server" ID="litFName"></asp:Literal></span></h3>
+        			        </div>
+                        </div>
+                    </div><!--side bar menu!-->
+                    <div class="logo"><a href="AdminMenu.aspx"><img src="images/logo.png" /></a></div>
+                    <div class="clr"></div>
+                </div><!--logo section!-->
+                <div class="hd_rt"><!--header right section!-->
+        	        <div class="date"><asp:Literal runat="server" ID="litDateTime"></asp:Literal></div>
+                    <div class="help">
+            	        <div class="attack_pop" style="display:none;"><!--attack popup !-->
+                	        <h3>Karl - Wednesdays dial </h3>
+                            <ul>
+                    	        <li><a href="#">Mark Julien<span>Kronos Worldwide, Inc.</span></a></li>
+                                <li><a href="#">Stephen Wilson<span>CF Industries Holdings, Inc.</span></a></li>
+                                <li><a href="#">Craig Seitz <span>Crown Equipment Corporation</span></a></li>
+                                <li><a href="#">Jacques Croisetiere <span>Rohm abd Haas Company</span></a></li>
+                            </ul>
+                          
+                          <div class="see_all"><a href="contact_box_list.html">See All</a></div>  
+                        </div><!--attack popup !-->
+                    </div>
+                </div><!--header right section!-->
+                <div class="clr"></div>
+            </div>
+        </header><!--header section!-->
+                    <input type="submit" id="btnSubmit" runat="server" style="display:none" />
+        <div>
+                    <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+            
+                    </asp:ContentPlaceHolder>
+        </div>
+
+		<asp:ContentPlaceHolder id="ContentPopMain" runat="server">
+        </asp:ContentPlaceHolder>
+
+
+        <footer class="log_footer"><!--footer section!-->
+	        © 2015-2016 all rights reserved
+        </footer><!--footer section!-->
+			<script type="text/javascript" src="js/tab/bootstrap.min.js"></script>
+			<script type="text/javascript" src="js/tab/wizard.js"></script>
+
+            <script type="text/javascript">
+                var table;
+                $(function () {
+                    //function cb(start, end) {
+                    //    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                    //    if ($('#reportrange span').html() != 'undefined') {
+                    //        //alert(table);
+                    //        //table.draw();
+                    //    }
+                    //}
+                    //cb(moment().subtract(29, 'days'), moment());
+
+                    //$('#reportrange').daterangepicker({
+                    //    ranges: {
+                    //        'Today': [moment(), moment()],
+                    //        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    //        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    //        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    //        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    //        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    //    }
+                    //}, cb);
+                });
+
+                $('.configure').on('click', function () {
+                    $('.conf_opt').toggle();
+                });
+
+                //-----------------------
+                $.ajaxSetup({
+                    cache: false
+                });
+
+                function getParameterByName(name, url) {
+                    if (!url) {
+                        url = window.location.href;
+                    }
+                    name = name.replace(/[\[\]]/g, "\\$&");
+                    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                        results = regex.exec(url);
+                    if (!results) return null;
+                    if (!results[2]) return '';
+                    return decodeURIComponent(results[2].replace(/\+/g, " "));
+                }
+
+                function fnLoadTable() {
+                    var st = "ajqdt";
+                    var field = 'RptId';
+                    var url = window.location.href;
+                    if ((url.indexOf('?' + field + '=') != -1) || (url.indexOf(st) > -1)) {
+                        if (url.indexOf(st) > -1) {
+                            var rptid = 0;
+                        }
+                        else {
+                            var rptid = getParameterByName('RptId'); // "lorem"
+                        }
+                        if (document.getElementById("ctl00_ContentPlaceHolder1_ddlYQM") != null) {
+                            //var pagerval = '"' + document.getElementById("ctl00_ContentPlaceHolder1_ddlPager").value + '"';
+                            //var pagerval = '10';
+                            var aryColTableChecked;
+                            var aryJSONColTable;
+                            var aryJSONColFormat;
+
+                            table = $('.myexample').DataTable({
+                                "scrollY": '60vh',
+                                //"scrollX": true,
+                                bProcessing: true, //show the processing popup
+                                bServerSide: true, // required!
+                                //bFilter: true,
+                                //bLengthChange: false,
+                                "columnDefs": [
+                                        //{ className: "dt-body-right", "targets": [2, 5] }
+                                        //{ className: "dt-body-center", "targets": [3] },
+                                ],
+                                "language": {
+                                    "lengthMenu": "Show _MENU_ Records:",
+                                    "zeroRecords": "Nothing found - sorry",
+                                    "info": "",
+                                    "infoEmpty": "No records available",
+                                    "infoFiltered": "(filtered from _MAX_ total records)"
+                                },
+                                "lengthMenu": [[10, 20, 50, 100, 1000, "10%", -1], [10, 20, 50, 100, 1000, "10%", "All"]],
+                                "sAjaxSource": "WebService.asmx/GetTableData",
+                                "fnServerData": function (sSource, aoData, fnCallback) {
+                                    aoData.push({ "name": "rptid", "value": '' + rptid + '' }, { "name": "ddlYQM", "value": '"' + document.getElementById("ctl00_ContentPlaceHolder1_ddlYQM").value + '"' }, { "name": "ddlQVal", "value": '"' + document.getElementById("ctl00_ContentPlaceHolder1_ddlQVal").value + '"' }, { "name": "ddlMVal", "value": '"' + document.getElementById("ctl00_ContentPlaceHolder1_ddlMVal").value + '"' }, { "name": "daterangeval", "value": '"' + document.getElementById("ctl00_ContentPlaceHolder1_lblDateRange").innerHTML + '"' }, { "name": "ddlYVal", "value": '"' + document.getElementById("ctl00_ContentPlaceHolder1_ddlYVal").value + '"' }, { "name": "columns", "value": aryJSONColTable });
+                                    $.ajax({
+                                        "dataType": 'json',
+                                        "contentType": "application/json; charset=utf-8",
+                                        "type": "GET",
+                                        "url": sSource,
+                                        "data": aoData,
+                                        "success": function (msg) {
+                                            //create JSON array for aoColumnDefs
+                                            aryJSONColTable = msg.d[0];
+                                            aryJSONColFormat = msg.d[2];
+                                            //aryColTableChecked = [msg.d[0]];
+                                            //aryJSONColTable = [];
+                                            //for (var i = 0; i < aryColTableChecked.length; i++) {
+                                            //    aryJSONColTable.push({
+                                            //        "sTitle": aryColTableChecked[i],
+                                            //        "aTargets": [i]
+                                            //    });
+                                            //};
+                                            //alert(msg.d[0]);
+                                            //document.getElementById("ctl00_ContentPlaceHolder1_grdReport").innerHTML = msg.d[0];
+                                            var json = jQuery.parseJSON(msg.d[1]);
+                                            //alert(json);
+                                            //for (var i = 0; i < json.aaData.length; i++) {
+                                            //json.aaData[i][1] = '<a href="" >' + json.aaData[i][1] + '</a>';
+                                            //}
+                                            fnCallback(json);
+                                            //$("#tblData").show();
+                                        },
+                                        error: function (xhr, textStatus, error) {
+                                            if (typeof console == "object") {
+                                                console.log(xhr.status + "," + xhr.responseText + "," + textStatus + "," + error);
+                                            }
+                                        }
+                                    });
+                                },
+                                fnDrawCallback: function () {
+                                    $('.image-details').bind("click", showDetails);
+                                    $(".dataTables_filter").each(function () { $(this).appendTo($(this).parent().siblings(".panel-body")); });
+                                },
+                                createdRow: function (row, data, index) {
+                                    var res = aryJSONColFormat.split(',');
+                                    //alert(res.length);
+                                    //for (i = 0; i < res.length; i++) { 
+                                    //    text += cars[i] + "<br>";
+                                    //    switch(expression) {
+                                    //        case n:
+                                    //            code block
+                                    //            break;
+                                    //        case n:
+                                    //            code block
+                                    //            break;
+                                    //        default:
+                                    //        default code block
+                                    //    }
+                                    //}
+                                    //$('td', row).eq(5).addClass('dt-body-center'); // 6 is index of column
+                                    //$('td', row).eq(6).addClass('dt-body-center'); // 6 is index of column
+                                },
+                            });
+
+                            $('a.toggle-vis').on('click', function (e) {
+                                e.preventDefault();
+                                // Get the column API object
+                                var column = table.column($(this).attr('data-column'));
+                                // Toggle the visibility
+                                column.visible(!column.visible());
+                            });
+
+                            $('.myexample tfoot th').each(function () {
+                                var title = $(this).text();
+                                $(this).html('<input type="text" style="color:black" placeholder="Search ' + title + '" />');
+                            });
+
+                            $('.myexample tfoot tr').insertBefore($('.myexample thead tr'));
+
+                            // Apply the search
+                            table.columns().every(function () {
+                                var that = this;
+                                $('input', this.footer()).on('keyup change', function () {
+                                    if (that.search() !== this.value) {
+                                        that
+                                            .search(this.value)
+                                            .draw();
+                                    }
+                                });
+                            });
+
+                            $('.dataTables_length').css('margin-top', "-30px");
+                            //$('.form-control input-sm').css('margin-top', "-30px");
+
+                            //$('a.toggle-vis').on('click', function (e) {
+                            //    e.preventDefault();
+                            //    // Get the column API object
+                            //    var column = table.column($(this).attr('data-column'));
+                            //    table.fnSetColumnVis(column, bVis ? false : true);
+                            //});
+
+                        }
+                    }
+                }
+
+                function showDetails() {
+                    //so something funky with the data
+                }
+                //------------------------
+
+                $('#ctl00_ContentPlaceHolder1_ddlYQM').change(function () {
+                    table.draw();
+                });
+                $('#ctl00_ContentPlaceHolder1_ddlQVal').change(function () {
+                    table.draw();
+                });
+                $('#ctl00_ContentPlaceHolder1_ddlMVal').change(function () {
+                    table.draw();
+                });
+                $('#ctl00_ContentPlaceHolder1_ddlYVal').change(function () {
+                    table.draw();
+                });
+                $('#reportrange').change(function () {
+                    table.draw();
+                });
+
+
+
+                $(function () {
+				
+				 Sys.WebForms.PageRequestManager.getInstance().add_endRequest(EndRequestHandler);
+
+				function EndRequestHandler(sender, args) {
+					$('.datepicker').datepicker();
+				}
+
+				
+                    $(".datepicker").datepicker();
+                    $("#reminddate").datepicker();
+
+                    $("#submitdiv a").click(function () {
+                        //alert('comes');
+                        //debugger;
+                        var table = $('.myexample').DataTable();
+                        table.destroy();
+                        fnLoadTable();
+                    });
+
+
+                    //-----------
+                    function cb(start, end) {
+                        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                        //alert(document.getElementById("ctl00_ContentPlaceHolder1_lblDateRange").innerHTML);
+                        if ($('#reportrange span').html() != undefined) {
+                            table.draw();
+                        }
+                    }
+                    cb(moment().subtract(29, 'days'), moment());
+
+                    $('#reportrange').daterangepicker({
+                        ranges: {
+                            'Today': [moment(), moment()],
+                            'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                            'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                            'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                            'This Month': [moment().startOf('month'), moment().endOf('month')],
+                            'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                        }
+                    }, cb);
+
+                    //-----------
+
+					$('#rootwizard').bootstrapWizard({ 'tabClass': 'nav nav-tabs' });
+
+
+                });
+
+
+</script>
+
+    </form>
+
+</body>
+</html>

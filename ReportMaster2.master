@@ -1,0 +1,9 @@
+﻿<%@ Master Language="VB" MasterPageFile="~/MasterPage2.master" AutoEventWireup="false" CodeFile="ReportMaster2.master.vb" Inherits="ReportMaster2" %>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<asp:ContentPlaceHolder ID="ContentMain" Runat="Server"></asp:ContentPlaceHolder>
+
+
+
+</asp:Content>
+

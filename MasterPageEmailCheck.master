@@ -1,0 +1,162 @@
+﻿<%@ Master Language="VB" CodeFile="MasterPageEmailCheck.master.vb" Inherits="MasterPageEmailCheck" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,  initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <title>SalesShark</title>
+
+
+
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,300,500,700,800' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Lato:400,300,700,900' rel='stylesheet' type='text/css'>
+<link href="css/tab/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="css/custom.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.sidr.min.js"></script>
+<script type="text/javascript" src="js/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/datatables/dataTables.bootstrap.js"></script>
+<link href="css/jquery.sidr.dark.css" rel="stylesheet" type="text/css">
+<link href="css/dataTables.bootstrap.css" rel="stylesheet" type="text/css">
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css">
+<link href="css/responsive-tables.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/responsive-tables.js"></script>
+
+<!-- Include Required Prerequisites
+<script type="text/javascript" src="js/datepicker/jquery.min.js"></script> 
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css" /> -->
+<script type="text/javascript" src="js/datepicker/moment.min.js"></script>
+
+ 
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="css/daterangepicker.css" />
+
+<!--date picker elements start here!-->
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+<!--date picker elements start here!-->
+
+
+    <script type="text/javascript">
+
+        function pageLoad() {
+            // If function contentPageLoad exists, execute it.
+            if (typeof contentPageLoad == 'function') {
+                contentPageLoad();
+            }
+        }
+
+        function showcontact() {
+            $("#showcontact").show();
+        }
+
+        function showsettings() {
+            $("#showsettings").show();
+        }
+    </script>
+     
+    <asp:ContentPlaceHolder id="head" runat="server">
+    </asp:ContentPlaceHolder>
+<%--    <style type="text/css">
+        myright table.myexample tr td {
+        text-align: right!important;
+        }
+    </style>--%>
+</head>
+<body>
+    <form id="form1" runat="server" enctype="multipart/form-data" method="post">
+        <cc1:ToolkitScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" EnablePartialRendering="true"></cc1:ToolkitScriptManager>
+        <header><!--header section!-->
+	        <div class="hd_con">
+    	        <div class="logo_sec"><!--logo section!-->
+                    <div class="logo">
+                        <a href="SalesShark.aspx">
+                            <img src="LandingPage/img/logo.png" style="height:40px" />
+                        </a>
+					</div>
+                    <div class="clr"></div>
+                </div><!--logo section!-->
+                <div class="hd_rt"><!--header right section!-->
+        	        <div class="date"><asp:Literal runat="server" ID="litDateTime"></asp:Literal></div>
+                    <div class="help">
+						<a class='t_button' href="login.aspx"><i class="fa fa-power-off"></i></a>
+                        </div><!--attack popup !-->
+                </div><!--header right section!-->
+                <div class="clr"></div>
+            </div>
+        </header><!--header section!-->
+                    <input type="submit" id="btnSubmit" runat="server" style="display:none" />
+        <div>
+                    <asp:ContentPlaceHolder id="ContentPlaceHolder1" runat="server">
+            
+                    </asp:ContentPlaceHolder>
+        </div>
+
+		<asp:ContentPlaceHolder id="ContentPopMain" runat="server">
+        </asp:ContentPlaceHolder>
+
+    
+        
+        <footer class="log_footer"><!--footer section!-->
+	        © 2015-2016 all rights reserved
+        </footer><!--footer section!-->
+<script type="text/javascript" src="js/tab/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/tab/wizard.js"></script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.flash.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+<script type="text/javascript" src="js/datatables/date-uk.js"></script>
+
+    <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#left-menu').sidr({
+                        name: 'sidr-left',
+                        side: 'left' // By default
+                    });
+
+                    $('#right-menu').sidr({
+                        name: 'sidr-right',
+                        side: 'right'
+                    });
+
+                    $('#simple-menu').sidr();
+                    $('.menu').on('click', function () {
+                        //$('.sub_menu').toggle();
+                        $(this).children('ul.sub_menu').toggle();
+                    });
+
+                    $('.datepicker').each(function () {
+                        //alert(this.id);
+                        $(this).datepicker();
+                    });
+
+                    $(".attack_pop").fadeOut();
+
+                    $(".notification,.attack_pop").mouseover(function () {
+                        $(".attack_pop").fadeIn();
+                    });
+                    $(".attack_pop, .hd_rt .date").mouseleave(function (e) {
+                        $(".attack_pop").fadeOut();
+                    });
+
+                });
+                $('#rootwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
+    </script>
+    <div class="mymodal"><!-- Place at bottom of page --></div>
+
+    </form>
+
+</body>
+</html>
