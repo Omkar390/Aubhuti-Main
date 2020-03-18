@@ -8,7 +8,7 @@
         <asp:HiddenField ID="hdnSurveyID" runat="server" />
 	    <div class="ac_list_main">
     	    <div class="top_hd crasul_sec"><!--top heading!-->
-        	    <h2>Create Survey <a class="new_btn" href="SurveyList.aspx">Back</a></h2>
+        	    <h2>Create Test <a class="new_btn" href="SurveyList.aspx">Back</a></h2>
     	        <asp:Label ID="lblErrorMsg" runat="server"></asp:Label>
                 <asp:Label ID="lblSuccessMsg" runat="server" ForeColor="Green" Visible="false"></asp:Label>
             </div><!--top heading!-->
@@ -32,7 +32,7 @@
             <div class="survey-main">
         	    <div class="survey-left">
             	    <div class="s-label bottom-five">
-                	    <div class="sl-left"><p>Survey Active?</p></div>
+                	    <div class="sl-left"><p>Test Active?</p></div>
                         <div class="sl-right">
                     	    <label class="switch">
                                 <input id="chkActive" runat="server" checked="checked" class="inputdemo" type="checkbox" />
@@ -41,19 +41,19 @@
                         </div>
                     </div>
             	    <div class="s-label bottom-five">
-                	    <div class="sl-left"><p>Survey Name</p></div>
+                	    <div class="sl-left"><p>Test Name</p></div>
                     </div>
                     <div id="abm" class="s-white">
                         <input id="txtName" runat="server" type="text" class="text-field"/>
                     </div>
                     <div class="s-label">
-                	    <div class="sl-left"><p>Survey Type</p></div>
+                	    <div class="sl-left"><p>Test Type</p></div>
                     </div>
                     <div class="s-white">
                         <asp:DropDownList ID="ddlSurveyType" CssClass="dropdown" runat="server" DataTextField="surveytype" DataValueField="surveytypeid"></asp:DropDownList>
                     </div>
                     <div class="s-label">
-                	    <div class="sl-left"><p>Survey Description</p></div>
+                	    <div class="sl-left"><p>Test Description</p></div>
                     </div>
                     <div class="s-white">
                 	    <textarea id="txtDesc" runat="server" class="text-field" ></textarea>
@@ -68,7 +68,7 @@
 
                 <div class="survey-right">
                     <div id="divrows" runat="server">
-            	        <h2>Yes Survey is active</h2>
+            	        <h2>Yes Test is active</h2>
 
                         <h3>Tile</h3>
                         <p><asp:Literal ID="litTitle" runat="server"></asp:Literal></p>
@@ -80,7 +80,7 @@
                         <p><asp:Literal ID="litDescription" runat="server"></asp:Literal></p>
 
                         <h3>URL</h3>
-                        <p><a id="lnkSurvey" runat="server" class="anchor" href=""><u>Click to see survey</u></a></p>
+                        <p><a id="lnkSurvey" runat="server" class="anchor" href=""><u>Click to view Test</u></a></p>
 
                         <div class="progress">
                           <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 25%;">

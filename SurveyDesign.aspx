@@ -182,7 +182,7 @@
             <div class="survey-right">
                 <div class="r-top survey_background_container">
                     <div class="logo_background_container">
-                        <img id='output' runat="server" src="" alt="logo" class="survey-logo" />
+                        <img id='output' runat="server" src="" alt="logo" class="survey-logo" style="width:50%" />
                     </div>
                 </div>
                 <div class="r-top survey_configuration_container">
@@ -197,9 +197,6 @@
                     <CKEditor:CKEditorControl ShiftEnterMode="P"  EnterMode="P" ResizeEnabled="false" 
                     RemovePlugins="elementspath" ToolbarCanCollapse="false"  ID="txtLPText" runat="server" 
                     DisableObjectResizing="true" ToolbarBasic="true" Height="240px" Text=''></CKEditor:CKEditorControl>                   
-                </div>
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">60%</div>
                 </div>
                 <div class="create_button"><a  id="btnSave" runat="server" class="btn-black">Done</a></div>
             </div>

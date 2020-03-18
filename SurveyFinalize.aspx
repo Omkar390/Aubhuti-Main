@@ -28,11 +28,6 @@
         </div>
         <div class="survey-main">
             <div class="survey-right">
-                <div class="progress">
-                  <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                    100%
-                  </div>
-                </div>
                 <div class="create_button"><a href="" class="btn-black" id="btnPreview" runat="server">Preview</a></div>
             </div>
             <div class="clr"></div>

@@ -19,15 +19,15 @@
 
 	    <div class="ac_list_main">
     	    <div class="heading_row topspace  crasul_sec"><!--top heading!-->
-        	    <h2>Detail of Survey <a href="SurveyOverview.aspx?SurveyID=0" >New</a>
-                <a href="SalesShark.aspx">Back</a></h2>
+        	    <h2>Test List <a href="SurveyOverview.aspx?SurveyID=0" >New</a>
+                <a href="Anubhuti.aspx">Back</a></h2>
                 <asp:Label ID="lblErrorMsg" runat="server"></asp:Label>
             </div><!--top heading!-->
             <div class="new_btab dataTables_wrapper"><!--table listing!--> 
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="display nowrap ac_list" id="sort_tab" >
             	    <thead>
                     <tr>
-                        <th><span>Survey</span></th>
+                        <th><span>Test Name</span></th>
                         <th><span>Type</span></th>
                         <th><span>Decription</span></th>
                         <th><span>Date Created</span></th>
@@ -52,8 +52,8 @@
                                         Text="<img src='images/edit.png' />" ToolTip="Edit"></asp:LinkButton>
     	                            <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("SurveyID")%>' ID="ActDel" runat="server"
                                         Text="<img src='images/Delete.png' />" ToolTip="Delete" OnClientClick="return delconfirm();"></asp:LinkButton>
-    	                            <asp:LinkButton CommandName="Pre" CommandArgument='<%#Eval("SurveyID")%>' ID="ActPre" runat="server"
-                                        Text="Preview" ToolTip="Preview"></asp:LinkButton>
+    	                            <!-- <asp:LinkButton CommandName="Pre" CommandArgument='<%#Eval("SurveyID")%>' ID="ActPre" runat="server"
+                                        Text="Preview" ToolTip="Preview"></asp:LinkButton> -->
                                 </td>
                             </tr>
                         </ItemTemplate>

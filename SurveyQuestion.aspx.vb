@@ -36,7 +36,11 @@ Partial Class SurveyQuestion
         'it uses client_2002 database and uses tblsurveyquestion table it shows sqrowid, qtext, active, mandatory, qorder, anstype and tabledata
         strSQL = "Select sqrowid, qtext, case coalesce(active, 0) when 1 then 'Yes' else 'No' End as active, " &
                 " case coalesce(mandatory, 0) when 1 then 'Yes' else 'No' end as mandatory, qorder ," &
-                " anstype,Tabledata,intelligencetype from tblsurveyquestion where surveyid = @surveyid order by qorder "
+                " anstype,Tabledata,intelligencetype, " &
+                " case  ifnull(intelligencetype ,'') when 1 then 'Linguistic' when 2 then 'Logical'  " &
+                " when 3 then 'Musical' when 4 then 'Bodily-Kinaesthetic' when 5 then 'Spatial' when 6 then 'Interpersonal'  " &
+                " when 7 then 'Intrapersonal' Else '' end as itype " &
+                "  from tblsurveyquestion where surveyid = @surveyid order by qorder "
         Dim dt As New DataTable
         dt = db.DataAdapter(CommandType.Text, strSQL,parms1).Tables(0)
         rptSurveyQuestions.DataSource = dt
@@ -151,7 +155,7 @@ Partial Class SurveyQuestion
                     BindQA(hdnSurveyQuestionID.Value)
                 Else
                     divQuesAns.Style.Item("display") = "none"
-                    ClearAll()
+                    'ClearAll()
                 End If
                 BindData()
             Else
@@ -166,19 +170,21 @@ Partial Class SurveyQuestion
                 BindData()
             End If
 
-            If (ddlAnsType.SelectedValue = "Yes or No" Or ddlAnsType.SelectedValue = "Yes or No or Can't Say") Then
+            If (ddlAnsType.SelectedValue = "Yes or No" Or ddlAnsType.SelectedValue = "Yes or No or Can't Say" Or ddlAnsType.SelectedValue = "Agree - Disagree") Then
                 If rptQuesAns.Items.Count > 0 Then
+
                     Dim parms2(0) As DBHelperClient.Parameters
                     parms2(0) = New DBHelperClient.Parameters("sqrowid", hdnSurveyQuestionID.Value)
+                    'strSQL = "Delete from tblsurveyquestionanswer where sqrowid = @sqrowid "
                     strSQL = "Delete from tblsurveyquestionanswer where sqrowid = @sqrowid "
                     db.ExecuteNonQuery(CommandType.Text, strSQL, parms2)
                 End If
 
-                Dim parmsQ(2) As DBHelperClient.Parameters
+                Dim parmsQ(3) As DBHelperClient.Parameters
                 parmsQ(0) = New DBHelperClient.Parameters("p_sqrowid", hdnSurveyQuestionID.Value)
                 parmsQ(1) = New DBHelperClient.Parameters("p_User", Session("user_id"))
-                'in client_2002(tblsurveyquestionanswer) sqrowid, qatext, createdby, createdts this values we inserting into this table 
-                strSQL = " Insert into tblsurveyquestionanswer (sqrowid, qatext, createdby, createdts) Values (@p_sqrowid, @p_qatext, @p_User, CURRENT_TIMESTAMP) "
+                'in client_2002(tblsurveyquestionanswer) sqrowid, qatext, createdby, createdts this values we inserting into this table
+                strSQL = " Insert into tblsurveyquestionanswer (sqrowid, qatext, createdby, createdts,marks) Values (@p_sqrowid, @p_qatext, @p_User, CURRENT_TIMESTAMP,@p_marks) "
 
 
                 Select Case ddlAnsType.SelectedValue
@@ -188,9 +194,12 @@ Partial Class SurveyQuestion
                         'pop up
                     Case "Yes or No"
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "Yes")
+                        parmsQ(3) = New DBHelperClient.Parameters("p_marks", "1")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "No")
+                        parmsQ(3) = New DBHelperClient.Parameters("p_marks", "0")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
+
                     Case "Yes or No or Can't Say"
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "Yes")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
@@ -201,21 +210,25 @@ Partial Class SurveyQuestion
 
                     Case "Agree - Disagree"
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "Completely Disagree")
+                        parmsQ(3) = New DBHelperClient.Parameters("p_marks", "1")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "Partially Disagree")
+                        parmsQ(3) = New DBHelperClient.Parameters("p_marks", "2")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "Partially Agree")
+                        parmsQ(3) = New DBHelperClient.Parameters("p_marks", "3")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
                         parmsQ(2) = New DBHelperClient.Parameters("p_qatext", "Completely Agree")
+                        parmsQ(3) = New DBHelperClient.Parameters("p_marks", "4")
                         db.ExecuteNonQuery(CommandType.Text, strSQL, parmsQ)
                     Case Else
                         'hide repeater
                 End Select
             End If
-
-            lblSuccessMsg.Text = "Survey has been updated successfully"
+            ClearAll()
+            lblSuccessMsg.Text = "Test has been updated successfully"
             lblSuccessMsg.Visible = True
-
+            hdnSurveyQuestionID.Value = 0
         Catch ex As Exception
             lblErrorMsg.Text = "Sorry ... this page does not appear to be working. The error has been logged and we are reviewing it."
             lblErrorMsg.Visible = True
@@ -238,7 +251,10 @@ Partial Class SurveyQuestion
                 strSQL = "Select qtext, active, mandatory, addnewoption, showcomment, commentheader, " &
                         " commenttype, allowranking, anstype,Coalesce(Tabledata,'select') as Tabledata,intelligencetype,Coalesce(HasLogic, 0) as HasLogic, " &
                         " Coalesce(LogicAnswerValue, '') as LogicAnswerValue, " &
-                        " Coalesce(LogicQIDGoto, '') as LogicQIDGoto " &
+                        " Coalesce(LogicQIDGoto, '') as LogicQIDGoto, " &
+                        " case  ifnull(intelligencetype ,'') when 1 then 'Linguistic' when 2 then 'Logical'  " &
+                        " when 3 then 'Musical' when 4 then 'Bodily-Kinaesthetic' when 5 then 'Spatial' when 6 then 'Interpersonal'  " &
+                        " when 7 then 'Intrapersonal' Else '' end as itype " &
                         " from tblsurveyquestion where sqrowid = @sqrowid "
                 Dim dt As New DataTable
                 dt = db.DataAdapter(CommandType.Text, strSQL, parms1).Tables(0)
@@ -368,7 +384,7 @@ Partial Class SurveyQuestion
 
 
     'clear all button
-    Private Sub btlClear_ServerClick(sender As Object, e As EventArgs) Handles btlClear.ServerClick
+    Private Sub btlClear_ServerClick(sender As Object, e As EventArgs) 'Handles btlClear.ServerClick
         ClearAll()
         hdnSurveyQuestionID.Value = 0
     End Sub

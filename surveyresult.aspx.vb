@@ -51,7 +51,8 @@ Partial Class surveyresult
         Try
             If e.CommandName = "Edit" Then
                 'Response.Redirect("SurveyOverview.aspx?SurveyID=" & e.CommandArgument, False)
-                Response.Redirect("assignlist.aspx?userID=" & e.CommandArgument, False)
+                'Response.Redirect("assignlist.aspx?userID=" & e.CommandArgument, False)
+                Response.Redirect("showresult.aspx?userID=" & e.CommandArgument, False)
                 'ElseIf e.CommandName = "Del" Then
                 '    Dim strSQL As String
                 '    Dim db As New DBHelperClient

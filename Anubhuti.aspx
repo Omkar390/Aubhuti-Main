@@ -7,25 +7,25 @@
             <li class="rfp">
             	<a href="SurveyList.aspx"> <!--  rfp.html -->
             		<img src="images/rfp2.png">
-                	<h3>Survey</h3>
+                	<h3>Define Tests</h3>
                 </a>
             </li>
              <li class="account">
             	<a href="userlist.aspx"> <!--  rfp.html -->
             		<%--<img src="images/rfp2.png">--%><img src="images/list.png" />
-                	<h3>Assign Survey</h3>
+                	<h3>Assign Tests</h3>
                 </a>
             </li>
             <li class="task">
             	<a href="Users.aspx"><%--<a href="admin_user.html">--%>
             		<img src="images/ad_user.png">
-                	<h3>Users</h3>
+                	<h3>User List</h3>
                 </a>
             </li>
              <li class="account">
             	<a href="surveyresult.aspx"> <!--  rfp.html -->
             		<%--<img src="images/rfp2.png">--%><img src="images/list.png" />
-                	<h3>View Result</h3>
+                	<h3>View Results</h3>
                 </a>
             </li>
 		</ul>

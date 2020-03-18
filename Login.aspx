@@ -366,70 +366,7 @@ border-radius: 4px;
                 </div>
                 <div class="col-md-4 col-md-offset-1 ">
                     <div class="left-contact-form">
-                        <div class="contact-forms" id="contact">
-                            <%--<form id="contact" action="" method="post">--%>
-                            <h3 class="text-center">To request access for Beta Account please enter below</h3>
-                            <div class="form-group">
-                                <%--<input type="text" class="form-control" placeholder="First Name" id="txtfname" runat="server"
-                                        style="color: gray;font-weight: bold; font-size: 17px;" validationgroup="newuser" />--%>
-                                <asp:TextBox ID="txtfname" runat="server" placeholder="First Name"  validationgroup="newuser"
-                                        style="color: gray;font-weight: bold; font-size: 17px; width:93%" ></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvtxtfname" Display="Dynamic" ValidationGroup="newuser"
-                                    runat="server" ControlToValidate="txtfname" InitialValue="">
-                                    <img src="images/star.gif" height="10px" width="10px" style="margin-top:5px;margin-left:5px"/>
-                                </asp:RequiredFieldValidator>
-                            </div>
-                            <div class="form-group">
-                                <%--<input type="text" class="form-control" placeholder="Last Name" id="txtlname"  runat="server"
-                                        style="color: gray;font-weight: bold; font-size: 17px;" validationgroup="newuser" />--%>
-                                <asp:TextBox ID="txtlname" runat="server" placeholder="Last Name"  validationgroup="newuser" 
-                                        style="color: gray;font-weight: bold; font-size: 17px; width:93%" ></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvtxtlname" Display="Dynamic" ValidationGroup="newuser"
-                                    runat="server" ControlToValidate="txtlname" InitialValue="">
-                                    <img src="images/star.gif" height="10px" width="10px" style="margin-top:5px;margin-left:5px"/>
-                                </asp:RequiredFieldValidator>
-                            </div>
-                            <div class="form-group">
-                                <%--<input type="text" class="form-control" placeholder="Email" id="txtemail"  runat="server"
-                                    style="color: gray;font-weight: bold; font-size: 17px;" validationgroup="newuser" />--%>
-                                <asp:TextBox ID="txtemail" runat="server" placeholder="Email"  validationgroup="newuser" 
-                                        style="color: gray;font-weight: bold; font-size: 17px; width:93%" ></asp:TextBox>
-                                <asp:RequiredFieldValidator ID="rfvtxtemail" Display="Dynamic" ValidationGroup="newuser"
-                                    runat="server" ControlToValidate="txtemail" InitialValue="">
-                                    <img src="images/star.gif" height="10px" width="10px" style="margin-top:5px;margin-left:5px"/>
-                                </asp:RequiredFieldValidator>
-                                <asp:RegularExpressionValidator ValidationGroup="newuser" ID="regextxtEmail" runat="server" ControlToValidate="txtEmail" Display="Dynamic" 
-                                        ValidationExpression="(([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)(\s*;\s*|\s*$))*" >
-                                    <img src="images/star.gif" height="10px" width="10px" style="margin-top:5px;margin-left:5px"/>
-                                </asp:RegularExpressionValidator>
-                            </div>
-                            <div class="form-group">
-                                <%--<input type="text" class="form-control" placeholder="Company Name" id="txtconame"  runat="server"
-                                    style="color: gray;font-weight: bold; font-size: 17px;" validationgroup="newuser" />--%>
-                                <asp:TextBox ID="txtconame" runat="server" placeholder="Company Name"  validationgroup="newuser" 
-                                        style="color: gray;font-weight: bold; font-size: 17px; width:93%" ></asp:TextBox>
-                            </div>
-                            <center>
-                                <div class="create_button">
-                                    <!-- <asp:LinkButton CssClass="ok" OnClientClick="return disablevalidation();" id="btnSubmit" runat="server" causesvalidation="true" validationgroup="newuser">Submit Now</asp:LinkButton> -->
-<%--									<button onclick="return disablevals();" type="submit" id="Button1" onserverclick="btnSubmit_ServerClick" runat="server" validationgroup="newuser">Submit Now</button>--%>
-<%--									<button class="mybutton2" onclick="return disablevals();" type="button" id="btnSubmit2" onserverclick="btnSubmit_ServerClick" runat="server" validationgroup="newuser">Submit Now</button>--%>
-                                        <div>
-										    <asp:Button ID="btnRegister" OnClientClick="return disablevals();" runat="server" Text="Submit Now" CssClass="mybutton2"/>
-                                        </div>
-                                        <div>
-                                            <div class="g-recaptcha" data-sitekey="6LcQp5EUAAAAABYlXlK5rBzh2NJxbTXFBidGq5bZ"></div>
-                                        </div>
-                                        <div>
-                                            <b><asp:Label ID="lblCaptchaMessage" ForeColor="red" runat="server"></asp:Label> </b>
-                                        </div>
-                                </div>
-                            </center>
-                            <div class="form-group">
-                                <asp:Label ID="lblSuccessMsg" runat="server"></asp:Label>
-                            </div>
-                            <%--</form>--%>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

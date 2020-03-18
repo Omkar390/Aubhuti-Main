@@ -1,4 +1,4 @@
-﻿<%@ Page Language="VB" MasterPageFile="~/MasterPage.master" AutoEventWireup="false" CodeFile="surveyresult.aspx.vb" Inherits="surveyresult" title="Survey List" %>
+﻿<%@ Page Language="VB" MasterPageFile="~/MasterPage.master" AutoEventWireup="false" CodeFile="showresult.aspx.vb" Inherits="showresult" title="Survey List" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -19,7 +19,7 @@
 
 	    <div class="ac_list_main">
     	    <div class="heading_row topspace  crasul_sec"><!--top heading!-->
-        	    <h2>Detail of Survey <a href="showresult.aspx?userID=0" >New</a>
+        	    <h2>Detail of Survey <%--<a href="userlist.aspx?userID=0" >New</a>--%>
                 <a href="Anubhuti.aspx">Back</a></h2>
                 <asp:Label ID="lblErrorMsg" runat="server"></asp:Label>
             </div><!--top heading!-->
@@ -29,32 +29,35 @@
                     <tr>
                         <%--<th><span>SurveyID</span></th>--%>
                          <th><span>User Name</span></th>
-                        <th><span>Survey Name</span></th>
+                        <th><span>Survey Question</span></th>
+                        <th><span>Answer Type</span></th>
+                        <th><span>answer</span></th>
                       <%--  <th><span>Survey Type</span></th> --%>                      
                      <%--   <th><span>userID</span></th>
                         <th><span>Description</span></th>
                         <th><span>Date Created</span></th>
                         <th><span>Created By</span></th>--%>
-                        <th><span>IS Completed</span></th>
-                        <th><span>Links</span></th>
+              <%--          <th><span>IS Completed</span></th>--%>
+                      <%--  <th><span>Links</span></th>--%>
                     </tr>
                     </thead>
                     <tbody>
-                    <asp:Repeater ID="rptSurvey" runat="server">
+                    <asp:Repeater ID="rptSurvey1" runat="server">
                         <ItemTemplate>
                             <tr>
                                 <asp:HiddenField ID="SurveyID" runat="server" />     
                                  <td><%#Eval("UserName") %></td>
-                                <td><%#Eval("SurveyName")%></td>
+                                <td><%#Eval("Surveyquestion")%></td>
+                                 <td><%#Eval("Answertype")%></td>
+                                 <td><%#Eval("answer")%></td>
                              <%--   <td><%#Eval("surveytype")%></td>    --%>                           
                               <%--  <td><%#Eval("userID") %></td>
                                 <td><%#Eval("Description")%></td>
                                 <td><%#Eval("createdts")%></td>
                                 <td><%#Eval("createdby")%></td>--%>
-                                <td><%#Eval("iscompleted")%></td>
+                              <%--  <td><%#Eval("iscompleted")%></td>--%>
         	                    <td>
-    	                            <asp:LinkButton CommandName="Edit" CommandArgument='<%#Eval("userID")%>' ID="ActEdit" runat="server"
-                                        Text="<img src='images/edit.png' />" ToolTip="Edit"></asp:LinkButton>
+    	                            
     	                           <%-- <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("SurveyID")%>' ID="ActDel" runat="server"
                                         Text="<img src='images/Delete.png' />" ToolTip="Delete" OnClientClick="return delconfirm();"></asp:LinkButton>
     	                            <asp:LinkButton CommandName="Pre" CommandArgument='<%#Eval("SurveyID")%>' ID="ActPre" runat="server"

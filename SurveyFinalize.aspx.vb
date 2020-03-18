@@ -3,8 +3,8 @@ Partial Class SurveyFinalize
     Inherits System.Web.UI.Page
     Private Sub SurveyFinalize_Load(sender As Object, e As EventArgs) Handles Me.Load
         Try
-            If Not Page.IsPostBack = True
-                hdnSurveyID.value =  Request.QueryString("SurveyID")
+            If Not Page.IsPostBack = True Then
+                hdnSurveyID.value = Request.QueryString("SurveyID")
             End If
         Catch ex As Exception
 

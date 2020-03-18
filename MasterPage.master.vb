@@ -18,17 +18,18 @@ Partial Class MasterPage
             Response.Redirect("Login.aspx")
         End If
 
-        litFName.Text = Session("user_name")
-        pEmail.Text = Session("email")
-        pAddInf.Text = Request.Url.ToString
+        'litFName.Text = Session("user_name")
+        'pEmail.Text = Session("email")
+        'pAddInf.Text = Request.Url.ToString
 
-        Dim db As New DBHelper
-        Dim strSQL As String
-        strSQL = "SELECT client_name FROM client_master " & _
-                " WHERE client_id = " & Session("client_id")
+        'Dim db As New DBHelper
+        'Dim strSQL As String
+        'strSQL = "SELECT client_name FROM client_master " & _
+        '        " WHERE client_id = " & Session("client_id")
 
-        lblClientName.text = "Abubhuti"
-        litDateTime.Text = System.DateTime.Now.ToString("MM-dd-yyyy hh:mm")
+        'lblClientName.text = "Abubhuti"
+        'litDateTime.Text = System.DateTime.Now.ToString("MM-dd-yyyy hh:mm")
+
         'If Session("client_id") = "999" Then
         '    lblClientName.text = "<b>" &  "Admin" & "&nbsp&nbsp&nbsp&nbsp</b>"
         'Else
@@ -36,12 +37,12 @@ Partial Class MasterPage
 
         'End If
 
-		'log the pagename in DB!
-        LogPageName()
+        'log the pagename in DB!
+        'LogPageName()
 
         If Not Page.IsPostBack Then
             'BindLists()
-            SSManager.IPageNav(Session("client_id"), Session("user_id"), Request.Url.ToString, Request.Browser.Browser)
+            'SSManager.IPageNav(Session("client_id"), Session("user_id"), Request.Url.ToString, Request.Browser.Browser)
             'ScriptManager.RegisterStartupScript(Me.Page, Me.Page.[GetType](), "showfirsttime", "fnLoadTable();", True)
         End If
 
@@ -193,13 +194,13 @@ Partial Class MasterPage
                 mailMsg.Attachments.Add(New System.Net.Mail.Attachment(memStream, FileUpload1.FileName.ToString))
             End If
 
-            Dim smtp As New SmtpClient("smtp.sparkpostmail.com")
-            smtp.Port = "587"
-            smtp.Credentials = New System.Net.NetworkCredential("SMTP_Injection", "1")
+            'Dim smtp As New SmtpClient("smtp.sparkpostmail.com")
+            'smtp.Port = "587"
+            'smtp.Credentials = New System.Net.NetworkCredential("SMTP_Injection", "1")
 
             'Dim token As Object = Nothing
             'smtp.Send(mailMsg,token)
-            smtp.Send(mailMsg)
+            ' smtp.Send(mailMsg)
             pComments.Value = ""
 
         Catch ex As Exception

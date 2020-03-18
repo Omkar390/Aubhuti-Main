@@ -42,7 +42,7 @@
 
 	    <div class="ac_list_main">
     	    <div class="top_hd"><!--top heading!-->
-        	    <h2>Create Survey<a class="new_btn" href="SurveyList.aspx">Back</a></h2>
+        	    <h2>Create Test<a class="new_btn" href="SurveyList.aspx">Back</a></h2>
     	        <asp:Label ID="lblErrorMsg" runat="server"></asp:Label>
                 <asp:Label ID="lblSuccessMsg" runat="server" ForeColor="Green" Visible="false"></asp:Label>
             </div><!--top heading!-->
@@ -244,6 +244,10 @@
             <div class="survey-right">
     	        <div class="heading_row topspace  crasul_sec"><!--top heading!-->
         	        <h2>Questions</h2>
+                    <div class="create_button">
+                    <a id="btnSave" runat="server" class="btn-black">Save</a>
+                    <%--<a id="btlClear" runat="server" class="btn-black">Clear</a>--%>
+                </div>
                 </div><!--top heading!-->
 
                 <div class="new_btab dataTables_wrapper"><!--table listing!--> 
@@ -254,6 +258,7 @@
                             <th><span>Active</span></th>
                             <th><span>Mandatory</span></th>
                             <th><span>Answer Type</span></th>
+                            <th><span>Intelligence</span></th>
                             <th><span>Links</span></th>
                         </tr>
                         </thead>
@@ -266,6 +271,7 @@
                                     <td><%#Eval("active")%></td>
                                     <td><%#Eval("mandatory")%></td>
                                     <td><%#Eval("anstype")%></td>
+                                    <td><%#Eval("itype")%></td>
         	                        <td>
     	                                <asp:LinkButton CommandName="Edit" CommandArgument='<%#Eval("sqrowid")%>' ID="ActEdit" runat="server"
                                             Text="<img src='images/edit.png' />" ToolTip="Edit"></asp:LinkButton>
@@ -284,14 +290,7 @@
                     </table>
     			
                 </div><!--table listing!-->
-
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">75%</div>
-                </div>
-                <div class="create_button">
-                    <a id="btnSave" runat="server" class="btn-black">Save</a>
-                    <a id="btlClear" runat="server" class="btn-black">Clear</a>
-                </div>
+                
             </div>
             <div class="clr"></div>
         </div>

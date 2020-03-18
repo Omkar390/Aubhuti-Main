@@ -5,9 +5,10 @@ Partial Class SurveyDesign
     Inherits System.Web.UI.Page
 
     Private Sub SurveyDesign_Load(sender As Object, e As EventArgs) Handles Me.Load
-        If Not Page.IsPostBack = True
+        hdnSurveyID.Value = Request.QueryString("SurveyID")
+        If Not Page.IsPostBack = True Then
+
             Try
-                hdnSurveyID.Value = Request.QueryString("SurveyID")
                 BindDesign()
             Catch ex As Exception
                 lblErrorMsg.Text = "Sorry ... this page does not appear to be working. The error has been logged and we are reviewing it."
@@ -86,7 +87,7 @@ Partial Class SurveyDesign
             hdntitleunderline.Value = "0"
             txtPTTextColor.Value = "#000000"
 
-            output.Src = "images/logo_orange.png"
+            output.Src = "images/anubhuti logo.png"
             chkLandingPage.Checked = False
             showLP.Style.Item("display") = "none"
             txtLPText.Text = ""

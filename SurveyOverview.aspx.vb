@@ -78,7 +78,7 @@ Partial Class SurveyOverview
                          " Values (@p_SurveyName, @p_SurveyType, @p_Description, @p_Active, @p_User, CURRENT_TIMESTAMP ) ; " &
                          " Select LAST_INSERT_ID() ; "
                 hdnSurveyID.Value = db.ExecuteScalar(CommandType.Text, strSQL, parms)
-                lblSuccessMsg.Text = "Survey has been created successfully"
+                lblSuccessMsg.Text = "Test has been created successfully"
                 lblSuccessMsg.Visible = True
             Else
                 strSQL = " Update tblsurvey set SurveyName = @p_SurveyName, SurveyType = @p_SurveyType " &
