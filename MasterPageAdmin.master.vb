@@ -75,13 +75,13 @@ Partial Class MasterPageAdmin
             strBody += "</div>"
             mailMsg.Body = strBody
 
-            Dim smtp As New SmtpClient("smtp.sparkpostmail.com")
-            smtp.Port = "587"
-            smtp.Credentials = New System.Net.NetworkCredential("SMTP_Injection", "1")
+            'Dim smtp As New SmtpClient("smtp.sparkpostmail.com")
+            'smtp.Port = "587"
+            'smtp.Credentials = New System.Net.NetworkCredential("SMTP_Injection", "1")
 
             'Dim token As Object = Nothing
             'smtp.Send(mailMsg,token)
-            smtp.Send(mailMsg)
+            'smtp.Send(mailMsg)
 
         Catch ex As Exception
 

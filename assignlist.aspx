@@ -19,8 +19,8 @@
 
 	    <div class="ac_list_main">
     	    <div class="heading_row topspace  crasul_sec"><!--top heading!-->
-        	    <h2>Detail of Survey <%--<a href="userlist.aspx?SurveyID=0" >New</a>--%>
-                 <a href="SalesShark.aspx">Back</a></h2>
+        	    <h2> Test Assigned to You <%--<a href="userlist.aspx?SurveyID=0" >New</a>--%>
+                <%-- <a href="SalesShark.aspx">Back</a>--%></h2>
                 <asp:Label ID="lblErrorMsg" runat="server"></asp:Label>
             </div><!--top heading!-->
      <%-- <div class="new_btab dataTables_wrapper"><!--table listing!--> --%><br/><br/>
@@ -28,12 +28,12 @@
             <div class="new_btab dataTables_wrapper"  >
                    <div style="float:left"><!--table listing!--> 
             <%--<table width="30%" border="0" cellspacing="0" cellpadding="0" class="display nowrap ac_list" id="sort_tab" style="float:left">--%>
-                           <table width="40%" border="4" cellspacing="0" cellpadding="0" class="display nowrap ac_list" id="sort_tab" >
+                           <table width="450%" border="4" cellspacing="0" cellpadding="0" class="display nowrap ac_list" id="sort_tab" >
             	    <thead>
                     <tr>
                         <%--<th><span>SurveyID</span></th>--%>
                          <th><span>User Name</span></th>
-                        <th><span>Survey Name</span></th>
+                     <%--   <th><span>Survey Name</span></th>--%>
                      <%--  <th><span>Survey Name</span></th>
                         <th><span>Survey Type</span></th> --%>                  
                      <%--   <th><span>userID</span></th>
@@ -42,6 +42,7 @@
                         <th><span>Created By</span></th>
                         <th><span>Active</span></th>--%>
                         <th><span>Links</span></th>
+                       <%-- <th><span>Go to Survey Page</span></th>--%>
                     </tr>
                     </thead>                                
                     <tbody>
@@ -50,7 +51,7 @@
                             <tr>
                                 <asp:HiddenField ID="SurveyID" runat="server"/>     
                                  <td><%#Eval("UserName") %></td>
-                            <%--    <td><%#Eval("SurveyName")%></td>--%>
+                                <%--<td><%#Eval("SurveyName")%></td>--%>
                                <%--   <td><%#Eval("surveytype")%></td> --%>                           
                               <%--  <td><%#Eval("userID") %></td>
                                 <td><%#Eval("Description")%></td>
@@ -59,10 +60,10 @@
                                 <td><%#Eval("Active")%></td>--%>
         	                    <td>
     	                                               
-    	                            <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("SurveyID")%>' ID="ActDel" runat="server"
-                                        Text="<img src='images/Delete.png' />" ToolTip="Delete" OnClientClick="return delconfirm();"></asp:LinkButton>
-    	                           <%-- <asp:LinkButton CommandName="Pre" CommandArgument='<%#Eval("SurveyID")%>' ID="ActPre" runat="server"
-                                        Text="Preview" ToolTip="Preview"></asp:LinkButton>--%>
+    	                           <%-- <asp:LinkButton CommandName="Del" CommandArgument='<%#Eval("SurveyID")%>' ID="ActDel" runat="server"
+                                        Text="<img src='images/Delete.png' />" ToolTip="Delete" OnClientClick="return delconfirm();"></asp:LinkButton>--%>
+    	                            <asp:LinkButton CommandName="Pre" CommandArgument='<%#Eval("SurveyID")%>' ID="ActPre" runat="server"
+                                        Text="Go To Survey Page" ToolTip="Preview"></asp:LinkButton>
                                         <%--  <asp:LinkButton CommandName="Remove" CommandArgument='<%#Eval("userID")%>' ID="ActEdit" runat="server"
                                         Text="<img src='images/minus.png' />" ToolTip="Edit"></asp:LinkButton>   --%>
                                 </td>
@@ -81,13 +82,13 @@
 
 
             <!--Table 2 div tag starts from here-->               
-              <div style="float:left" ><!--table listing!-->         
+             <%-- <div style="float:left" ><!--table listing!-->         
                 <table width="40%" border="4" cellspacing="0" cellpadding="0" class="display nowrap ac_list" id="sort_tab1">
             	    <thead>
                     <tr>
                         <%--<th><span>SurveyID</span></th>--%>
                          <%--<th><span>User Name</span></th>--%>
-                       <th><span>Survey Name</span></th>
+                      <%-- <th><span>Survey Name</span></th>
                         <th><span>Survey Type</span></th>                   
                
                         <th><span>Links</span></th>
@@ -100,7 +101,7 @@
                             <tr>
                                 <asp:HiddenField ID="SurveyID" runat="server"/>     
                                 <%-- <td><%#Eval("UserName") %></td>--%>
-                                 <td><%#Eval("SurveyName")%></td>
+                                <%-- <td><%#Eval("SurveyName")%></td>
                                  <td><%#Eval("surveytype")%></td>                            
                  
         	                    <td>
@@ -113,7 +114,7 @@
                  </tbody>
                 </table>
     			
-            </div>
+            </div--%>
                
             <!--Table 2 tag ends here-->
             

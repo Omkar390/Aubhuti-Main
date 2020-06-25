@@ -192,13 +192,13 @@ Partial Class MasterPage2
                 mailMsg.Attachments.Add(New System.Net.Mail.Attachment(memStream, FileUpload1.FileName.ToString))
             End If
 
-            Dim smtp As New SmtpClient("smtp.sparkpostmail.com")
-            smtp.Port = "587"
-            smtp.Credentials = New System.Net.NetworkCredential("SMTP_Injection", "1")
+            'Dim smtp As New SmtpClient("smtp.sparkpostmail.com")
+            'smtp.Port = "587"
+            'smtp.Credentials = New System.Net.NetworkCredential("SMTP_Injection", "1")
 
             'Dim token As Object = Nothing
             'smtp.Send(mailMsg,token)
-            smtp.Send(mailMsg)
+            'smtp.Send(mailMsg)
             pComments.Value = ""
 
         Catch ex As Exception

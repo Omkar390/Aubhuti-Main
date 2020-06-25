@@ -20,7 +20,7 @@
     	<div class="heading_row topspace crasul_sec"><!--heading row!-->
             <h2>Users
                 <a class="new_btn" href="UserMaint.aspx?userid=0">New</a>
-                <a class="new_btn" href="AdminMenu.aspx">Back</a>
+                <a class="new_btn" href="Anubhuti.aspx">Back</a>
             </h2>
                 
             <div class="clr"></div>

@@ -216,7 +216,7 @@
                         </div>
                     </div><!--side bar menu!-->
                     <div class="logo">
-                        <a href="AdminMenu.aspx">
+                        <a href="Anubhuti.aspx">
                             <img src="LandingPage/img/logo.png" style="height:40px" />
                         </a>
                     </div>
@@ -310,7 +310,7 @@
     </asp:UpdatePanel>
 
         <footer class="log_footer"><!--footer section!-->
-	        © 2015-2016 all rights reserved
+	        © 2020 Anubhuti, All Rights Reserved
         </footer><!--footer section!-->
 			<script type="text/javascript" src="js/tab/bootstrap.min.js"></script>
 			<script type="text/javascript" src="js/tab/wizard.js"></script>
